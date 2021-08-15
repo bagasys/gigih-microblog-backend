@@ -58,6 +58,19 @@ describe User do
         expect(user.valid?).to be true
       end
     end
+
+    context 'given invalid arguments' do
+      it 'should return false when username is nil' do
+        user_data = @users_data[0]
+        user = User.new(
+          id: user_data[:id], 
+          email: user_data[:email],
+          bio: user_data[:bio],
+          created_at: user_data[:created_at],
+        )
+        expect(user.valid?).to be false
+      end
+    end
   end
 
   
