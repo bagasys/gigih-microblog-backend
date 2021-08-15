@@ -44,5 +44,21 @@ describe User do
     end
   end
 
+  describe 'valid?' do
+    context 'given valid arguments' do
+      it 'should return true when all arguments are given' do
+        user_data = @users_data[0]
+        user = User.new(
+          id: user_data[:id], 
+          username: user_data[:username],
+          email: user_data[:email],
+          bio: user_data[:bio],
+          created_at: user_data[:created_at],
+        )
+        expect(user.valid?).to be true
+      end
+    end
+  end
+
   
 end

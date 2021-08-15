@@ -9,4 +9,8 @@ class User
     @bio = params[:bio] ? params[:bio] : ''
     @created_at = params[:created_at]
   end
+
+  def valid?
+    
+  end
 end
