@@ -6,7 +6,7 @@ class User
     @id = params[:id]
     @username = params[:username]
     @email = params[:email]
-    @bio = params[:bio]
+    @bio = params[:bio] ? params[:bio] : ''
     @created_at = params[:created_at]
   end
 end
