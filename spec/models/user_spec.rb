@@ -12,6 +12,7 @@ describe User do
       }
     ]
   end
+
   describe 'initialize' do
     it 'should assign the attributes' do
       user_data = @users_data[0]
@@ -120,5 +121,40 @@ describe User do
     end
   end
 
+  describe 'save' do
+    context 'given valid arguments' do
+      it 'should executes query and update the object attributes' do
+        user_data = @users_data[0]
+        
+        query1 = "INSERT INTO users (username, email, bio) VALUES ('#{user_data[:username]}','#{user_data[:email]}','#{user_data[:bio]}')"
+        response1 = {
+          'id' => user_data[:id],
+          'username' => user_data[:username],
+          'email' => user_data[:email],
+          'bio' => user_data[:bio],
+          'created_at' => user_data[:created_at]
+        }
+
+        user = User.new(
+          username: user_data[:username],
+          email: user_data[:email],
+          bio: user_data[:bio],
+        )
+
+
+        client = double
+        allow(Mysql2::Client).to receive(:new).and_return(client)
+        expect(client).to receive(:query).with(query1).and_return(response1)
+
+        user.save()
+
+        expect(user.id).to eq(response1['id'])
+        expect(user.username).to eq(response1['username'])
+        expect(user.email).to eq(response1['email'])
+        expect(user.bio).to eq(response1['bio'])
+        expect(user.created_at).to eq(response1['created_at'])
+      end
+    end
+  end
   
 end
