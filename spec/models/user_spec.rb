@@ -29,5 +29,20 @@ describe User do
       expect(user.bio).to eq(user_data[:bio])
       expect(user.created_at).to eq(user_data[:created_at])
     end
+
+    context 'bio is not given' do
+      it 'should assign empty string to bio' do
+        user_data = @users_data[0]
+        user = User.new(
+          id: user_data[:id], 
+          username: user_data[:username],
+          email: user_data[:email],
+          created_at: user_data[:created_at],
+        )
+        expect(user.bio).to eq('')
+      end
+    end
   end
+
+  
 end
