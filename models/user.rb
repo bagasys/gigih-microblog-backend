@@ -12,5 +12,6 @@ class User
 
   def valid?
     
+    true
   end
 end
