@@ -11,6 +11,8 @@ describe User do
         created_at: '2021-08-1 17:30:00'
       }
     ]
+    @client = double
+    allow(Mysql2::Client).to receive(:new).and_return(@client)
   end
 
   describe 'initialize' do
@@ -123,36 +125,44 @@ describe User do
 
   describe 'save' do
     context 'given valid arguments' do
-      it 'should executes query and update the object attributes' do
-        user_data = @users_data[0]
-        
-        query1 = "INSERT INTO users (username, email, bio) VALUES ('#{user_data[:username]}','#{user_data[:email]}','#{user_data[:bio]}')"
-        response1 = {
-          'id' => user_data[:id],
-          'username' => user_data[:username],
-          'email' => user_data[:email],
-          'bio' => user_data[:bio],
-          'created_at' => user_data[:created_at]
-        }
+      before :each do
+        @user_data = @users_data[0]
+        @query1 = "INSERT INTO users (username, email, bio) VALUES ('#{@user_data[:username]}', '#{@user_data[:email]}', '#{@user_data[:bio]}')"
+        @query2 = "SELECT * FROM users WHERE id=#{@user_data[:id]}"
+        query2_responses = [{
+          'id' => @user_data[:id],
+          'username' => @user_data[:username],
+          'email' => @user_data[:email],
+          'bio' => @user_data[:bio],
+          'created_at' => @user_data[:created_at]
+        }]
 
-        user = User.new(
-          username: user_data[:username],
-          email: user_data[:email],
-          bio: user_data[:bio],
+        @user = User.new(
+          username: @user_data[:username],
+          email: @user_data[:email],
+          bio: @user_data[:bio],
         )
 
+        allow(@client).to receive(:query).with(@query1)
+        allow(@client).to receive(:last_id).and_return(@user_data[:id])
+        allow(@client).to receive(:query).with(@query2).and_return(query2_responses)
+      end
 
-        client = double
-        allow(Mysql2::Client).to receive(:new).and_return(client)
-        expect(client).to receive(:query).with(query1).and_return(response1)
+      it 'should executes queries' do
+        expect(@client).to receive(:query).with(@query1)
+        expect(@client).to receive(:last_id)
+        expect(@client).to receive(:query).with(@query2)
+        @user.save()
+      end
 
-        user.save()
+      it 'should update the object attributes' do
+        @user.save()
+        expect(@user.id).to eq(@user_data[:id])
+        expect(@user.created_at).to eq(@user_data[:created_at])
+      end
 
-        expect(user.id).to eq(response1['id'])
-        expect(user.username).to eq(response1['username'])
-        expect(user.email).to eq(response1['email'])
-        expect(user.bio).to eq(response1['bio'])
-        expect(user.created_at).to eq(response1['created_at'])
+      it 'should return true' do
+        expect(@user.save()).to be(true)
       end
     end
   end

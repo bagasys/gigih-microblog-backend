@@ -1,3 +1,5 @@
+require_relative '../db/connector.rb'
+
 class User
   attr_accessor :username, :email, :bio
   attr_reader :id, :created_at
@@ -17,4 +19,10 @@ class User
     
     true
   end
+
+  def save    
+    
+  end
+
+
 end
