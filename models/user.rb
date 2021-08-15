@@ -11,7 +11,7 @@ class User
   end
 
   def valid?
-    return false if @username == nil
+    return false if @username == nil || @username == ''
     true
   end
 end
