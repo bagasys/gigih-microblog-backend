@@ -114,18 +114,7 @@ describe User do
           email: user_data[:email],
           created_at: user_data[:created_at],
         )
-        expect(user.valid?).to be false
-      end
-
-      it 'should return false when bio is an empty string' do
-        user_data = @users_data[0]
-        user = User.new(
-          id: user_data[:id], 
-          username: user_data[:username],
-          email: user_data[:email],
-          bio: '',
-          created_at: user_data[:created_at],
-        )
+        user.bio = nil
         expect(user.valid?).to be false
       end
     end
