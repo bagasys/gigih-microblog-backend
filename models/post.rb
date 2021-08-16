@@ -24,9 +24,10 @@ class Post
     
     client = create_db_client
     
-
     if !@parent_id.nil? && !@attachment.nil?
       client.query("INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES ('#{@user_id}', '#{@text_content}', #{@parent_id}, '#{@attachment}')")
+    elsif !@attachment.nil?
+      client.query("INSERT INTO posts (user_id, text_content, attachment) VALUES (#{@user_id}, '#{@text_content}', '#{@attachment}')")
     else
       client.query("INSERT INTO posts (user_id, text_content) VALUES ('#{@user_id}', '#{@text_content}')")
     end
