@@ -2,10 +2,11 @@ require_relative '../db/connector.rb'
 
 class Post
   attr_accessor :text_content, :attachment
-  attr_reader :id, :user_id, :created_at 
+  attr_reader :id, :user_id, :parent_id, :created_at 
 
   def initialize(params)
     @id = params[:id]
+    @parent_id = params[:parent_id]
     @user_id = params[:user_id]
     @text_content = params[:text_content]
     @attachment = params[:attachment]
@@ -23,8 +24,9 @@ class Post
     client.close
     post = nil
     rows.each do |row|
-      post = User.new({
+      post = Post.new({
         id: row["id"],
+        parent_id: row["parent_id"],
         user_id: row["user_id"],
         text_content: row["text_content"],
         attachment: row["attachment"],
