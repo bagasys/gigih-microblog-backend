@@ -193,6 +193,10 @@ describe Post do
         @post.save()
       end
 
+      it 'should close the db connection' do
+        expect(@client).to receive(:close)
+        @post.save()
+      end
 
       it 'should return true' do
         expect(@post.save()).to be(true)
