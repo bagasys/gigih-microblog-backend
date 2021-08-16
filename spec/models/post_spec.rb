@@ -154,6 +154,10 @@ describe Post do
         @post.save()
       end
 
+      it 'should return true' do
+        expect(@post.save()).to be(true)
+      end
+
       
     end
   end
