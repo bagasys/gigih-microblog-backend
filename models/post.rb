@@ -21,6 +21,14 @@ class Post
   def save    
     return false unless self.valid?
     
+    client = create_db_client
+    client.query(
+      "INSERT INTO posts (user_id, text_content) VALUES ('#{@user_id}', '#{@text_content}')"
+    )
+    id = client.last_id
+    rows = client.query(
+      "SELECT * FROM posts WHERE id=#{id}"
+    )
   end
 
 
