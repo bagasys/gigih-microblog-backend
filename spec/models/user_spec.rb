@@ -165,6 +165,7 @@ describe User do
         expect(@user.save()).to be(true)
       end
     end
+    
     context 'given invalid arguments' do
       it 'should return false when valid? return false' do
         user_data = @users_data[0]
@@ -177,5 +178,33 @@ describe User do
       end
     end
   end
-  
+
+  describe 'find_by_id' do
+    before :each do
+      @user_data = @users_data[0]
+      @query1 = "SELECT * FROM users WHERE id = #{@user_data[:id]}"
+      query1_response = [{
+        'id' => @user_data[:id],
+        'username' => @user_data[:username],
+        'email' => @user_data[:email],
+        'bio' => @user_data[:bio],
+        'created_at' => @user_data[:created_at]
+      }]
+
+      allow(@client).to receive(:query).with(@query1).and_return(query1_response)
+      allow(@client).to receive(:close)
+    end
+
+    it 'should execute queries' do
+      expect(@client).to receive(:query).with(@query1)
+      expect(@client).to receive(:close)
+      User::find_by_id(@user_data[:id])
+    end
+
+    it 'should return a user object' do
+      user = User::find_by_id(@user_data[:id])
+      expect(user.id).to eq(@user_data[:id])
+      expect(user.created_at).to eq(@user_data[:created_at])
+    end
+  end
 end
