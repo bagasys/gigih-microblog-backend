@@ -19,7 +19,7 @@ class Post
   end
 
   def save    
-    
+    return false unless self.valid?
     
   end
 
