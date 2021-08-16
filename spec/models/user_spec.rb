@@ -165,6 +165,17 @@ describe User do
         expect(@user.save()).to be(true)
       end
     end
+    context 'given invalid arguments' do
+      it 'should return false when valid? return false' do
+        user_data = @users_data[0]
+        user = User.new(
+          username: nil,
+          email: user_data[:email],
+          bio: user_data[:bio],
+        )
+        expect(user.save()).to be(false)
+      end
+    end
   end
   
 end
