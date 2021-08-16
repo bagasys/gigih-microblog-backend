@@ -13,7 +13,7 @@ class Post
   end
 
   def valid?
-    
+    return true
   end
 
 end
