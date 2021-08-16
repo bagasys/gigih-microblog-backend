@@ -21,7 +21,22 @@ class User
   end
 
   def save    
-    
+    return false unless self.valid?
+    client = create_db_client
+    client.query(
+      "INSERT INTO users (username, email, bio) VALUES ('#{@username}', '#{@email}', '#{@bio}')"
+    )
+    id = client.last_id
+    rows = client.query(
+      "SELECT * FROM users WHERE id=#{id}"
+    )
+    rows.each do |row|
+      @id = row["id"]
+      @created_at = row['created_at']
+      break
+    end
+
+    true
   end
 
 
