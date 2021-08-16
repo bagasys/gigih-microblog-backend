@@ -17,4 +17,8 @@ class Post
     return true
   end
 
+  def self.find_by_id(id)
+    
+  end 
+
 end
