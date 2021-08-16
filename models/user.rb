@@ -56,4 +56,22 @@ class User
     end
     user
   end  
+
+  def self.find_by_username(username)
+    client = create_db_client
+    rows = client.query("SELECT * FROM users WHERE username = #{username}")
+    client.close
+    user = nil
+    rows.each do |row|
+      user = User.new({
+        username: row["username"],
+        email: row["email"],
+        bio: row["bio"],
+        id: row["id"],
+        created_at: row["created_at"]
+      })
+      break
+    end
+    user
+  end  
 end
