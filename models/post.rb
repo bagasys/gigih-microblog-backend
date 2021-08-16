@@ -29,6 +29,8 @@ class Post
     rows = client.query(
       "SELECT * FROM posts WHERE id=#{id}"
     )
+
+    return true
   end
 
 
