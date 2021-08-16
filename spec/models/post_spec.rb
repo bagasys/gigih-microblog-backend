@@ -4,10 +4,11 @@ describe Post do
   before :each do
     @posts_data = [
       {
-        id: 1, 
+        id: 3, 
         user_id: 'john', 
         text_content: 'john@gmail.com', 
-        attachment: nil, 
+        attachment: '/public/images/a.jpg', 
+        parent_id: 1, 
         created_at: '2021-08-1 17:30:00'
       }
     ]
@@ -148,25 +149,38 @@ describe Post do
         allow(@client).to receive(:query).with(@query2).and_return(query2_response)
       end
 
-      it 'should executes queries' do
+      it 'should executes the right query when there are no attachment and parent_id' do
+        @post = Post.new(
+          user_id: @post_data[:user_id],
+          text_content: @post_data[:text_content],
+        )
         expect(@client).to receive(:query).with(@query1)
-        expect(@client).to receive(:query).with(@query2)
+        # expect(@client).to receive(:query).with(@query2)
         @post.save()
       end
+
+      it 'should executes the right query when there are attachment and parent_id' do
+        @post = Post.new(
+          user_id: @post_data[:user_id],
+          text_content: @post_data[:text_content],
+          parent_id: @post_data[:parent_id],
+          attachment: @post_data[:attachment]
+        )
+        query = "INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES ('#{@post_data[:user_id]}', '#{@post_data[:text_content]}', #{@post_data[:parent_id]}, '#{@post_data[:attachment]}')"
+        expect(@client).to receive(:query).with(query)
+        @post.save()
+      end
+
 
       it 'should return true' do
         expect(@post.save()).to be(true)
       end
-
-      
 
       it 'should update the object attributes' do
         @post.save()
         expect(@post.id).to eq(@post_data[:id])
         expect(@post.created_at).to eq(@post_data[:created_at])
       end
-
-      
     end
   end
 
