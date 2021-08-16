@@ -13,7 +13,7 @@ class Post
   end
 
   def valid?
-    return false if @text_content == nil
+    return false if @text_content == nil || @text_content == ''
     return true
   end
 
