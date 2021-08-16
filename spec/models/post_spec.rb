@@ -159,6 +159,14 @@ describe Post do
       end
 
       
+
+      it 'should update the object attributes' do
+        @post.save()
+        expect(@post.id).to eq(@post_data[:id])
+        expect(@post.created_at).to eq(@post_data[:created_at])
+      end
+
+      
     end
   end
 
