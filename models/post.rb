@@ -26,6 +26,8 @@ class Post
     
     if !@parent_id.nil? && !@attachment.nil?
       client.query("INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES ('#{@user_id}', '#{@text_content}', #{@parent_id}, '#{@attachment}')")
+    elsif !@parent_id.nil?
+      client.query("INSERT INTO posts (user_id, text_content, parent_id) VALUES (#{@user_id}, '#{@text_content}', '#{@parent_id}')")
     elsif !@attachment.nil?
       client.query("INSERT INTO posts (user_id, text_content, attachment) VALUES (#{@user_id}, '#{@text_content}', '#{@attachment}')")
     else
