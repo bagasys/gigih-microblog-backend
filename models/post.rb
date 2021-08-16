@@ -18,7 +18,21 @@ class Post
   end
 
   def self.find_by_id(id)
-    
+    client = create_db_client
+    rows = client.query("SELECT * FROM posts WHERE id = #{id}")
+    client.close
+    post = nil
+    rows.each do |row|
+      post = User.new({
+        id: row["id"],
+        user_id: row["user_id"],
+        text_content: row["text_content"],
+        attachment: row["attachment"],
+        created_at: row["created_at"]
+      })
+      break
+    end
+    post
   end 
 
 end
