@@ -76,5 +76,41 @@ describe Post do
     end
   end
 
+  describe 'find_by_id' do
+    before :each do
+      @post_data = @posts_data[0]
+        post = Post.new(
+          id: @post_data[:id], 
+          user_id: @post_data[:user_id],
+          text_content: @post_data[:text_content],
+          attachment: @post_data[:attachment],
+          created_at: @post_data[:created_at],
+        )
+      @query1 = "SELECT * FROM posts WHERE id = #{@post_data[:id]}"
+      query1_response = [{
+        'id' => @post_data[:id],
+        'user_id' => @post_data[:user_id],
+        'text_content' => @post_data[:text_content],
+        'attachment' => @post_data[:attachment],
+        'created_at' => @post_data[:created_at]
+      }]
+
+      allow(@client).to receive(:query).with(@query1).and_return(query1_response)
+      allow(@client).to receive(:close)
+    end
+
+    it 'should execute queries' do
+      expect(@client).to receive(:query).with(@query1)
+      expect(@client).to receive(:close)
+      Post::find_by_id(@post_data[:id])
+    end
+
+    it 'should return a user object' do
+      post = Post::find_by_id(@post_data[:id])
+      expect(post.id).to eq(@post_data[:id])
+      expect(post.created_at).to eq(@post_data[:created_at])
+    end
+  end
+
  
 end
