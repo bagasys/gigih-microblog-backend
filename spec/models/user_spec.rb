@@ -207,4 +207,33 @@ describe User do
       expect(user.created_at).to eq(@user_data[:created_at])
     end
   end
+
+  describe 'find_by_username' do
+    before :each do
+      @user_data = @users_data[0]
+      @query1 = "SELECT * FROM users WHERE username = #{@user_data[:username]}"
+      query1_response = [{
+        'id' => @user_data[:id],
+        'username' => @user_data[:username],
+        'email' => @user_data[:email],
+        'bio' => @user_data[:bio],
+        'created_at' => @user_data[:created_at]
+      }]
+
+      allow(@client).to receive(:query).with(@query1).and_return(query1_response)
+      allow(@client).to receive(:close)
+    end
+
+    it 'should execute queries' do
+      expect(@client).to receive(:query).with(@query1)
+      expect(@client).to receive(:close)
+      User::find_by_username(@user_data[:username])
+    end
+
+    it 'should return a user object' do
+      user = User::find_by_username(@user_data[:username])
+      expect(user.id).to eq(@user_data[:id])
+      expect(user.created_at).to eq(@user_data[:created_at])
+    end
+  end
 end
