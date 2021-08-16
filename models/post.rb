@@ -18,6 +18,13 @@ class Post
     return true
   end
 
+  def save    
+    
+    
+  end
+
+
+
   def self.find_by_id(id)
     client = create_db_client
     rows = client.query("SELECT * FROM posts WHERE id = #{id}")

@@ -112,5 +112,19 @@ describe Post do
     end
   end
 
+  describe 'save' do
+    context 'given invalid arguments' do
+      it 'should return false when valid? return false' do
+        @post_data = @posts_data[0]
+        post = Post.new(
+          text_content: '',
+          attachment: @post_data[:attachment],
+        )
+        
+        expect(post.save()).to be(false)
+      end
+    end
+  end
+
  
 end
