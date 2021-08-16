@@ -171,6 +171,17 @@ describe Post do
         @post.save()
       end
 
+      it 'should executes the right query when there is an attachment and no parent_id' do
+        @post = Post.new(
+          user_id: @post_data[:user_id],
+          text_content: @post_data[:text_content],
+          attachment: @post_data[:attachment]
+        )
+        query = "INSERT INTO posts (user_id, text_content, attachment) VALUES (#{@post_data[:user_id]}, '#{@post_data[:text_content]}', '#{@post_data[:attachment]}')"
+        expect(@client).to receive(:query).with(query)
+        @post.save()
+      end
+
 
       it 'should return true' do
         expect(@post.save()).to be(true)
