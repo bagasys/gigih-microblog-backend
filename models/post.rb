@@ -38,6 +38,9 @@ class Post
     rows = client.query(
       "SELECT * FROM posts WHERE id=#{id}"
     )
+
+    git.close()
+
     rows.each do |row|
       @id = row["id"]
       @created_at = row['created_at']
