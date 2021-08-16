@@ -29,6 +29,11 @@ class Post
     rows = client.query(
       "SELECT * FROM posts WHERE id=#{id}"
     )
+    rows.each do |row|
+      @id = row["id"]
+      @created_at = row['created_at']
+      break
+    end
 
     return true
   end
