@@ -124,6 +124,38 @@ describe Post do
         expect(post.save()).to be(false)
       end
     end
+
+    context 'given valid arguments' do
+      before :each do
+        @post_data = @posts_data[0]
+        @query1 = "INSERT INTO posts (user_id, text_content) VALUES ('#{@post_data[:user_id]}', '#{@post_data[:text_content]}')"
+        @query2 = "SELECT * FROM posts WHERE id=#{@post_data[:id]}"
+        query2_response = [{
+        'id' => @post_data[:id],
+        'user_id' => @post_data[:user_id],
+        'text_content' => @post_data[:text_content],
+        'attachment' => @post_data[:attachment],
+        'created_at' => @post_data[:created_at]
+      }]
+
+        @post = Post.new(
+          user_id: @post_data[:user_id],
+          text_content: @post_data[:text_content],
+        )
+
+        allow(@client).to receive(:query).with(@query1)
+        allow(@client).to receive(:last_id).and_return(@post_data[:id])
+        allow(@client).to receive(:query).with(@query2).and_return(query2_response)
+      end
+
+      it 'should executes queries' do
+        expect(@client).to receive(:query).with(@query1)
+        expect(@client).to receive(:query).with(@query2)
+        @post.save()
+      end
+
+      
+    end
   end
 
  
