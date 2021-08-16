@@ -1,4 +1,5 @@
 require_relative '../db/connector.rb'
+require_relative './hashtag.rb'
 
 class Post
   attr_accessor :text_content, :attachment
@@ -22,9 +23,14 @@ class Post
     return false unless self.valid?
     
     client = create_db_client
-    client.query(
-      "INSERT INTO posts (user_id, text_content) VALUES ('#{@user_id}', '#{@text_content}')"
-    )
+    
+
+    if !@parent_id.nil? && !@attachment.nil?
+      client.query("INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES ('#{@user_id}', '#{@text_content}', #{@parent_id}, '#{@attachment}')")
+    else
+      client.query("INSERT INTO posts (user_id, text_content) VALUES ('#{@user_id}', '#{@text_content}')")
+    end
+
     id = client.last_id
     rows = client.query(
       "SELECT * FROM posts WHERE id=#{id}"
