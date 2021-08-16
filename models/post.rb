@@ -12,4 +12,8 @@ class Post
     @created_at = params[:created_at]
   end
 
+  def valid?
+    
+  end
+
 end

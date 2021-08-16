@@ -34,5 +34,21 @@ describe Post do
     end
   end
 
+  describe 'valid?' do
+    context 'given valid arguments' do
+      it 'should return true when all arguments are given' do
+        post_data = @posts_data[0]
+        post = Post.new(
+          id: post_data[:id], 
+          user_id: post_data[:user_id],
+          text_content: post_data[:text_content],
+          attachment: post_data[:attachment],
+          created_at: post_data[:created_at],
+        )
+        expect(post.valid?).to be true
+      end
+    end
+  end
+
  
 end
