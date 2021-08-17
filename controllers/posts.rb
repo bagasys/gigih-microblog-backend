@@ -4,7 +4,7 @@ require "sinatra"
 
 class PostsController
   def create(params)
-    if params['user_id'].nil?
+    if params['user_id'].nil? || params['text_content'].nil?
       return {
         status: 400,  
         message: 'bad request',
