@@ -121,7 +121,7 @@ describe UsersController do
 
   describe 'show_by_id' do
     context 'when given valid arguments' do
-      it "should return response 200 with the user data" do
+      it "should return response status 200 with the user data" do
         expected_response = {
           status: 200,  
           message: 'success',
@@ -136,6 +136,22 @@ describe UsersController do
           
         params = @user_data['id']
 
+        controller = UsersController.new
+        response = controller.show_by_id(params)
+        expect(response).to eq(expected_response)
+      end
+    end
+
+    context 'no user found' do
+      it "should return response status 404 not found" do
+        expected_response = {
+          status: 404,  
+          message: 'resource not found',
+        }.to_json
+          
+        params = @user_data['id']
+
+        allow(User).to receive(:find_by_id).and_return(nil)
 
         controller = UsersController.new
         response = controller.show_by_id(params)
