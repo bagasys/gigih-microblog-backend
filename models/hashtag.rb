@@ -12,7 +12,18 @@ class Hashtag
   end
 
   def self.save_hashtags_from_post(text, post_id)
+    client = create_db_client
 
+    hashtags = text.scan(/#[a-zA-Z]+/)
+
+    query_text = "INSERT INTO hashtags (post_id, name) VALUES "
+    hashtags.each_with_index do |hashtag, index|
+      if index != 0
+        query_text += ", "  
+      end
+      query_text += "(#{post_id}, '#{hashtag}')"
+    end
+    client.query(query_text)
   end
   
 
