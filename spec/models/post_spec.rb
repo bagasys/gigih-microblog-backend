@@ -10,6 +10,14 @@ describe Post do
         attachment: '/public/images/a.jpg', 
         parent_id: 1, 
         created_at: '2021-08-1 17:30:00'
+      },
+      {
+        id: 2, 
+        user_id: 'doe', 
+        text_content: 'doe@gmail.com', 
+        attachment: '/public/images/a.jpg', 
+        parent_id: 3, 
+        created_at: '2021-08-1 17:30:00'
       }
     ]
     @client = double
@@ -208,6 +216,18 @@ describe Post do
         expect(@post.id).to eq(@post_data[:id])
         expect(@post.created_at).to eq(@post_data[:created_at])
       end
+    end
+  end
+
+  describe 'find_all' do
+    before :each do
+      @query_result = @posts_data
+      allow(@client).to receive(:query).and_return(@query_result)
+  
+    end
+    it "should close the db connection." do
+      expect(@client).to receive(:close)
+      posts = Post::find_all
     end
   end
 

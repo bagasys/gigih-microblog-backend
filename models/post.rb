@@ -39,7 +39,7 @@ class Post
       "SELECT * FROM posts WHERE id=#{id}"
     )
 
-    git.close()
+    client.close()
 
     rows.each do |row|
       @id = row["id"]
@@ -49,8 +49,6 @@ class Post
 
     return true
   end
-
-
 
   def self.find_by_id(id)
     client = create_db_client
@@ -69,6 +67,12 @@ class Post
       break
     end
     post
-  end 
+  end
+
+  def self.find_all
+    
+  end
+
+ 
 
 end
