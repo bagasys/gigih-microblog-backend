@@ -16,14 +16,16 @@ class Hashtag
 
     hashtags = text.scan(/#[a-zA-Z]+/)
 
-    query_text = "INSERT INTO hashtags (post_id, name) VALUES "
-    hashtags.each_with_index do |hashtag, index|
-      if index != 0
-        query_text += ", "  
+    if !hashtags.empty?
+      query_text = "INSERT INTO hashtags (post_id, name) VALUES "
+      hashtags.each_with_index do |hashtag, index|
+        if index != 0
+          query_text += ", "  
+        end
+        query_text += "(#{post_id}, '#{hashtag}')"
       end
-      query_text += "(#{post_id}, '#{hashtag}')"
+      client.query(query_text)
     end
-    client.query(query_text)
   end
   
 
