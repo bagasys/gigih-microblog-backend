@@ -43,13 +43,18 @@ describe Hashtag do
       @extracted_tags = ["#GIGIH", "#HeHe"]
       allow(Hashtag).to receive(:extract_hashtags_from_text).with(@text_content).and_return(@extracted_tags)
 
-      @query = "INSERT INTO hashtags (post_id, name) VALUES (#{@post_id}, '#{@extracted_tags[0]}'), (#{@post_id}, '#{@extracted_tags[0]}')"
+      @query = "INSERT INTO hashtags (post_id, name) VALUES (#{@post_id}, '#{@extracted_tags[0]}'), (#{@post_id}, '#{@extracted_tags[1]}')"
       
       allow(@client).to receive(:query).with(@query)
     end
-    it 'should return all the hashtags exists in text' do
+    it 'should execute the right query according to the argument given' do
       expect(@client).to receive(:query).with(@query)
       Hashtag::save_hashtags_from_post(@text_content, @post_id)
+    end
+
+    it 'should not execute any query if the text given contains no hashtag.' do
+      expect(@client).not_to receive(:query)
+      Hashtag::save_hashtags_from_post("Babibu Haha GIGIH", @post_id)
     end
 
     
