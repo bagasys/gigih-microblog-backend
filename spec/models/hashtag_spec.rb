@@ -62,6 +62,10 @@ describe Hashtag do
       Hashtag::save_hashtags_from_post(@text_content, @post_id)
     end
 
+    it 'should return true after all things done.' do
+      expect(Hashtag::save_hashtags_from_post(@text_content, @post_id)).to be(true)
+    end
+
     
   end
 end
