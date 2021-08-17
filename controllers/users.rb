@@ -4,6 +4,13 @@ require "sinatra"
 
 class UsersController
   def create(params)
+    if params['username'].nil?
+      return ({
+        status: 400,
+        message: "bad request"
+      }).to_json
+    end
+    
     user = User.new(username: params[:username], email: params[:email], bio: params[:bio])
     
     if user.save
@@ -17,7 +24,7 @@ class UsersController
         bio: user.bio,
         created_at: user.created_at
       }
-    })
+    }).to_json
     end
   end
 end
