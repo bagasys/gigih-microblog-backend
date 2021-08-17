@@ -249,10 +249,22 @@ describe Post do
       allow(@client).to receive(:query).and_return(@query_result)
       allow(@client).to receive(:close)
     end
-    
+
     it "should close the db connection." do
       expect(@client).to receive(:close)
-      posts = Post::find_all_by_hashtag
+      posts = Post::find_all_by_hashtag("#gigih")
+    end
+
+    it "should return empty array when the query return 0 rows" do
+      allow(@client).to receive(:query).and_return([])
+      
+      expect(Post::find_all_by_hashtag("#Gigih")).to eq([])
+    end
+
+    it "should return an array which length equals to query result" do
+      allow(@client).to receive(:query).and_return(@posts_data)
+      
+      expect(Post::find_all_by_hashtag("#Gigih").length).to eq(@posts_data.length)
     end
   end
 end
