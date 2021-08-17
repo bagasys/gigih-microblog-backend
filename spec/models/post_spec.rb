@@ -13,6 +13,7 @@ describe Post do
       }
     ]
     @client = double
+    allow(@client).to receive(:close)
     allow(Mysql2::Client).to receive(:new).and_return(@client)
   end
 
