@@ -7,6 +7,9 @@ class Hashtag
     @total_occurences = params[:total_occurences]
   end
 
+  def self.extract_hashtags_from_text(text)
+  end
+
   
 
 end
