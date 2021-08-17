@@ -70,7 +70,8 @@ class Post
   end
 
   def self.find_all
-    
+    client = create_db_client
+    client.close
   end
 
  
