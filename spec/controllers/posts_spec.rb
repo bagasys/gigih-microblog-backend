@@ -73,6 +73,24 @@ describe PostsController do
         expect(response).to eq(expected_response)
       end
 
+      it "should return status 400 when user_id is an empty string" do
+        expected_response = {
+          status: 400,  
+          message: 'bad request',
+        }.to_json
+          
+        params = {
+          'user_id' => '' ,
+          'text_content'=> @post_data['text_content'] ,
+          'attachment'=> @post_data['attachment'] ,
+        }
+        allow(Hashtag).to receive(:save_hashtags_from_post)
+        controller = PostsController.new
+        response = controller.create(params)
+        
+        expect(response).to eq(expected_response)
+      end
+
       it "should return status 400 when text_content is not given" do
         expected_response = {
           status: 400,  
