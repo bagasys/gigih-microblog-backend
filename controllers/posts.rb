@@ -55,4 +55,28 @@ class PostsController
     }).to_json
   end
 
+
+  def show_all_posts()
+    posts = Post::find_all
+    
+    data = []
+    posts.each do |post|
+      data << ({
+        id: post.id,
+        parent_id: post.parent_id,
+        user_id: post.user_id,
+        text_content: post.text_content,
+        attachment: post.attachment,
+        created_at: post.created_at
+      })
+    end
+
+    return ({
+      status: 200,
+      message: "success",
+      data: data
+    }).to_json
+  end
+ 
+
 end
