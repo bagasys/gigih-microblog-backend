@@ -89,7 +89,8 @@ class Post
   end
 
   def self.find_all_by_hashtag
-    
+    client = create_db_client
+    client.close
   end
 
 
