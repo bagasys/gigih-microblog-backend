@@ -88,6 +88,12 @@ class Post
     posts
   end
 
+  def self.find_all_by_hashtag
+    
+  end
+
+
+
  
 
 end

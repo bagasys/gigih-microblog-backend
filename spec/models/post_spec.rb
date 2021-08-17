@@ -243,5 +243,16 @@ describe Post do
     end
   end
 
- 
+  describe 'find_all_by_hashtag' do
+    before :each do
+      @query_result = @posts_data
+      allow(@client).to receive(:query).and_return(@query_result)
+      allow(@client).to receive(:close)
+    end
+    
+    it "should close the db connection." do
+      expect(@client).to receive(:close)
+      posts = Post::find_all_by_hashtag
+    end
+  end
 end
