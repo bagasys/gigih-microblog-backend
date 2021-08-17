@@ -27,7 +27,11 @@ describe PostsController do
     
     allow(Post).to receive(:find_all).and_return([post])
 
+    allow(Post).to receive(:find_all_by_hashtag).and_return([post])
+
     allow(Post).to receive(:new).and_return(post)
+
+    @post = post
   end
 
   describe 'create' do
@@ -221,6 +225,8 @@ describe PostsController do
       
       expect(response).to eq(expected_response)
     end
+
+    
   end
 
   
