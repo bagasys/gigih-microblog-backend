@@ -184,6 +184,23 @@ describe UsersController do
         expect(response).to eq(expected_response)
       end
     end
+
+    context 'no user found' do
+      it "should return response status 404 not found" do
+        expected_response = {
+          status: 404,  
+          message: 'resource not found',
+        }.to_json
+          
+        params = @user_data['username']
+
+        allow(User).to receive(:find_by_username).and_return(nil)
+
+        controller = UsersController.new
+        response = controller.show_by_username(params)
+        expect(response).to eq(expected_response)
+      end
+    end
   end
 end
 
