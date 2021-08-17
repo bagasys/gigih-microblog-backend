@@ -50,4 +50,7 @@ class UsersController
       }
     }).to_json
   end
+
+  def show_by_username(username)
+  end
 end

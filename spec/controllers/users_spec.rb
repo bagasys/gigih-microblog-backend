@@ -19,6 +19,8 @@ describe UsersController do
 
     allow(User).to receive(:find_by_id).and_return(user)
 
+    allow(User).to receive(:find_by_username).and_return(user)
+
     allow(User).to receive(:new).and_return(user)
   end
 
@@ -160,10 +162,29 @@ describe UsersController do
     end
   end
 
+  describe 'show_by_username' do
+    context 'when given valid arguments' do
+      it "should return response status 200 with the user data" do
+        expected_response = {
+          status: 200,  
+          message: 'success',
+          data: {
+            id: @user_data['id'],
+            username: @user_data['username'],
+            email: @user_data['email'],
+            bio: @user_data['bio'],
+            created_at: @user_data['created_at'],
+          }
+        }.to_json
+          
+        params = @user_data['username']
 
-  
-
-  
+        controller = UsersController.new
+        response = controller.show_by_username(params)
+        expect(response).to eq(expected_response)
+      end
+    end
+  end
 end
 
 
