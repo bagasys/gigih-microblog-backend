@@ -89,6 +89,9 @@ class Post
   end
 
   def self.find_all_by_hashtag(tagname)
+    if tagname == ""
+      return []
+    end
     tagname = tagname[0] == "#" ? tagname : "#" + tagname
     client = create_db_client
     rows = client.query("SELECT * FROM posts WHERE id IN (SELECT post_id FROM hashtags WHERE name='#{tagname}')")
