@@ -35,4 +35,23 @@ describe Hashtag do
       expect(hashtags).to eq([])
     end
   end
+
+  describe 'save_hashtags_from_post' do
+    before :each do
+      @text_content = "Halo #GIGIH #HeHe Oke."
+      @post_id = 2
+      @extracted_tags = ["#GIGIH", "#HeHe"]
+      allow(Hashtag).to receive(:extract_hashtags_from_text).with(@text_content).and_return(@extracted_tags)
+
+      @query = "INSERT INTO hashtags (post_id, name) VALUES (#{@post_id}, '#{@extracted_tags[0]}'), (#{@post_id}, '#{@extracted_tags[0]}')"
+      
+      allow(@client).to receive(:query).with(@query)
+    end
+    it 'should return all the hashtags exists in text' do
+      expect(@client).to receive(:query).with(@query)
+      Hashtag::save_hashtags_from_post(@text_content, @post_id)
+    end
+
+    
+  end
 end

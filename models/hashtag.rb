@@ -11,6 +11,9 @@ class Hashtag
     text.scan(/#[a-zA-Z]+/)
   end
 
+  def self.save_hashtags_from_post(text, post_id)
+
+  end
   
 
 end
