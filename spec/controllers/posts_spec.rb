@@ -43,9 +43,9 @@ describe PostsController do
         }.to_json
           
         params = {
-          user_id: @post_data['user_id'] ,
-          text_content: @post_data['text_content'] ,
-          attachment: @post_data['attachment'] ,
+          'user_id' => @post_data['user_id'] ,
+          'text_content'=> @post_data['text_content'] ,
+          'attachment'=> @post_data['attachment'] ,
         }
         allow(Hashtag).to receive(:save_hashtags_from_post)
         controller = PostsController.new
@@ -55,7 +55,24 @@ describe PostsController do
       end
     end
 
-    
+    context 'when given invalid arguments' do
+      it "should return status 400 when no user_id is given" do
+        expected_response = {
+          status: 400,  
+          message: 'bad request',
+        }.to_json
+          
+        params = {
+          'text_content'=> @post_data['text_content'] ,
+          'attachment'=> @post_data['attachment'] ,
+        }
+        allow(Hashtag).to receive(:save_hashtags_from_post)
+        controller = PostsController.new
+        response = controller.create(params)
+        
+        expect(response).to eq(expected_response)
+      end
+    end
   end
 
   
