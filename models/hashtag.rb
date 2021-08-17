@@ -8,6 +8,7 @@ class Hashtag
   end
 
   def self.extract_hashtags_from_text(text)
+    text.scan(/#[a-zA-Z]+/)
   end
 
   

@@ -27,7 +27,6 @@ describe Hashtag do
   describe 'extract_hashtags_from_text' do
     it 'should return all the hashtags exists in text' do
       hashtags = Hashtag::extract_hashtags_from_text('Halo #GIGIH #HeHe Oke.')
-      puts('aaaa',hashtags)
       expect(hashtags).to eq(['#GIGIH', '#HeHe'])
     end
   end
