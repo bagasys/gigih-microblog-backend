@@ -57,6 +57,11 @@ describe Hashtag do
       Hashtag::save_hashtags_from_post("Babibu Haha GIGIH", @post_id)
     end
 
+    it 'should close the db connection.' do
+      expect(@client).to receive(:close)
+      Hashtag::save_hashtags_from_post(@text_content, @post_id)
+    end
+
     
   end
 end
