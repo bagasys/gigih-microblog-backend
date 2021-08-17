@@ -26,6 +26,8 @@ class Hashtag
       end
       client.query(query_text)
     end
+
+    client.close
   end
   
 
