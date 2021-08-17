@@ -1,5 +1,5 @@
 require_relative '../../controllers/users.rb'
-
+require 'json'
 describe UsersController do
   before :each do
     user = double
@@ -19,6 +19,7 @@ describe UsersController do
 
     allow(User).to receive(:new).and_return(user)
   end
+
   context 'when given valid arguments' do
     it "should return the right response" do
       expected_response = {
@@ -31,10 +32,28 @@ describe UsersController do
           bio: @user_data['bio'],
           created_at: @user_data['created_at'],
         }
-      }
+      }.to_json
         
       params = {
         'username' => @user_data['username'],
+        'email' => @user_data['email'],
+        'bio' => @user_data['bio'],
+      }
+
+      controller = UsersController.new
+      response = controller.create(params)
+      expect(response).to eq(expected_response)
+    end
+  end
+
+  context 'when given invalid arguments' do
+    it "should return status 400 when no username is given" do
+      expected_response = {
+        status: 400,  
+        message: 'bad request',
+      }.to_json
+        
+      params = {
         'email' => @user_data['email'],
         'bio' => @user_data['bio'],
       }
