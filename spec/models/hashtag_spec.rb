@@ -29,5 +29,10 @@ describe Hashtag do
       hashtags = Hashtag::extract_hashtags_from_text('Halo #GIGIH #HeHe Oke.')
       expect(hashtags).to eq(['#GIGIH', '#HeHe'])
     end
+
+    it 'should return empty array when there is no hashtag in the text.' do
+      hashtags = Hashtag::extract_hashtags_from_text('Halo GIGIH HeHe Oke.')
+      expect(hashtags).to eq([])
+    end
   end
 end
