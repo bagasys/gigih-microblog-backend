@@ -17,102 +17,135 @@ describe UsersController do
     allow(user).to receive(:created_at).and_return(@user_data["created_at"])
     allow(user).to receive(:save).and_return(true)
 
+    allow(User).to receive(:find_by_id).and_return(user)
+
     allow(User).to receive(:new).and_return(user)
   end
 
-  context 'when given valid arguments' do
-    it "should return the right response" do
-      expected_response = {
-        status: 201,  
-        message: 'success',
-        data: {
-          id: @user_data['id'],
-          username: @user_data['username'],
-          email: @user_data['email'],
-          bio: @user_data['bio'],
-          created_at: @user_data['created_at'],
+
+  describe 'create' do
+    context 'when given valid arguments' do
+      it "should return the right response" do
+        expected_response = {
+          status: 201,  
+          message: 'success',
+          data: {
+            id: @user_data['id'],
+            username: @user_data['username'],
+            email: @user_data['email'],
+            bio: @user_data['bio'],
+            created_at: @user_data['created_at'],
+          }
+        }.to_json
+          
+        params = {
+          'username' => @user_data['username'],
+          'email' => @user_data['email'],
+          'bio' => @user_data['bio'],
         }
-      }.to_json
-        
-      params = {
-        'username' => @user_data['username'],
-        'email' => @user_data['email'],
-        'bio' => @user_data['bio'],
-      }
 
-      controller = UsersController.new
-      response = controller.create(params)
-      expect(response).to eq(expected_response)
+        controller = UsersController.new
+        response = controller.create(params)
+        expect(response).to eq(expected_response)
+      end
+    end
+
+    context 'when given invalid arguments' do
+      it "should return status 400 when no username is given" do
+        expected_response = {
+          status: 400,  
+          message: 'bad request',
+        }.to_json
+          
+        params = {
+          'email' => @user_data['email'],
+          'bio' => @user_data['bio'],
+        }
+
+        controller = UsersController.new
+        response = controller.create(params)
+        expect(response).to eq(expected_response)
+      end
+
+      it "should return status 400 when no email is given" do
+        expected_response = {
+          status: 400,  
+          message: 'bad request',
+        }.to_json
+          
+        params = {
+          'username' => @user_data['username'],
+          'bio' => @user_data['bio'],
+        }
+    
+        controller = UsersController.new
+        response = controller.create(params)
+        expect(response).to eq(expected_response)
+      end
+
+      it "should return status 400 bad request when username is empty string" do
+        expected_response = {
+          status: 400,  
+          message: 'bad request',
+        }.to_json
+          
+        params = {
+          'username' => '',
+          'email' => @user_data['email'],
+          'bio' => @user_data['bio'],
+        }
+
+        controller = UsersController.new
+        response = controller.create(params)
+        expect(response).to eq(expected_response)
+      end
+
+      it "should return status 400 when email is an empty string" do
+        expected_response = {
+          status: 400,  
+          message: 'bad request',
+        }.to_json
+          
+        params = {
+          'email' => '',
+          'username' => @user_data['username'],
+          'bio' => @user_data['bio'],
+        }
+    
+        controller = UsersController.new
+        response = controller.create(params)
+        expect(response).to eq(expected_response)
+      end
     end
   end
 
-  context 'when given invalid arguments' do
-    it "should return status 400 when no username is given" do
-      expected_response = {
-        status: 400,  
-        message: 'bad request',
-      }.to_json
-        
-      params = {
-        'email' => @user_data['email'],
-        'bio' => @user_data['bio'],
-      }
+  describe 'show_by_id' do
+    context 'when given valid arguments' do
+      it "should return response 200 with the user data" do
+        expected_response = {
+          status: 200,  
+          message: 'success',
+          data: {
+            id: @user_data['id'],
+            username: @user_data['username'],
+            email: @user_data['email'],
+            bio: @user_data['bio'],
+            created_at: @user_data['created_at'],
+          }
+        }.to_json
+          
+        params = @user_data['id']
 
-      controller = UsersController.new
-      response = controller.create(params)
-      expect(response).to eq(expected_response)
+
+        controller = UsersController.new
+        response = controller.show_by_id(params)
+        expect(response).to eq(expected_response)
+      end
     end
+  end
 
-    it "should return status 400 when no email is given" do
-      expected_response = {
-        status: 400,  
-        message: 'bad request',
-      }.to_json
-        
-      params = {
-        'username' => @user_data['username'],
-        'bio' => @user_data['bio'],
-      }
+
   
-      controller = UsersController.new
-      response = controller.create(params)
-      expect(response).to eq(expected_response)
-    end
-
-    it "should return status 400 bad request when username is empty string" do
-      expected_response = {
-        status: 400,  
-        message: 'bad request',
-      }.to_json
-        
-      params = {
-        'username' => '',
-        'email' => @user_data['email'],
-        'bio' => @user_data['bio'],
-      }
-
-      controller = UsersController.new
-      response = controller.create(params)
-      expect(response).to eq(expected_response)
-    end
-  end
-
-  it "should return status 400 when email is an empty string" do
-    expected_response = {
-      status: 400,  
-      message: 'bad request',
-    }.to_json
-      
-    params = {
-      'email' => '',
-      'username' => @user_data['username'],
-      'bio' => @user_data['bio'],
-    }
-
-    controller = UsersController.new
-    response = controller.create(params)
-    expect(response).to eq(expected_response)
-  end
 
   
 end
