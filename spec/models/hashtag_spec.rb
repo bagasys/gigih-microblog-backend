@@ -47,6 +47,7 @@ describe Hashtag do
       
       allow(@client).to receive(:query).with(@query)
     end
+
     it 'should execute the right query according to the argument given' do
       expect(@client).to receive(:query).with(@query)
       Hashtag::save_hashtags_from_post(@text_content, @post_id)
@@ -65,7 +66,25 @@ describe Hashtag do
     it 'should return true after all things done.' do
       expect(Hashtag::save_hashtags_from_post(@text_content, @post_id)).to be(true)
     end
+  end
 
-    
+  describe 'find_trendings' do
+    it 'should return empty array when the query return nothing' do
+      allow(@client).to receive(:query).and_return([])
+      expect(Hashtag::find_trendings()).to eq([])
+    end
+
+    it 'should return array of hashtag with the length of the query result' do
+      
+      rows = [{"name" => "#GIGIH", "total_occurences" => 20}]
+      allow(@client).to receive(:query).and_return(rows)
+      hashtags = []
+      rows.each do |row|
+        hashtag = Hashtag.new(name: row['name'], total_occurences: row['total_occurences'])
+        hashtags << hashtag
+      end
+
+      expect(Hashtag::find_trendings().length).to eq(rows.length)
+    end
   end
 end
