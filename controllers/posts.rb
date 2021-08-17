@@ -30,4 +30,23 @@ class PostsController
     end
   end
 
+  def show_by_id(id)
+    post = Post::find_by_id(id)
+    
+    
+
+    return ({
+      status: 200,
+      message: "success",
+      data: {
+        id: post.id,
+        parent_id: post.parent_id,
+        user_id: post.user_id,
+        text_content: post.text_content,
+        attachment: post.attachment,
+        created_at: post.created_at
+      }
+    }).to_json
+  end
+
 end
