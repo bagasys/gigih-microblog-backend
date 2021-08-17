@@ -4,7 +4,7 @@ require "sinatra"
 
 class UsersController
   def create(params)
-    if params['username'].nil?
+    if params['username'].nil? || params['email'].nil?
       return ({
         status: 400,
         message: "bad request"
