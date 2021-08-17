@@ -24,6 +24,8 @@ describe PostsController do
     allow(post).to receive(:save).and_return(true)
 
     allow(Post).to receive(:find_by_id).and_return(post)
+    
+    allow(Post).to receive(:find_all).and_return([post])
 
     allow(Post).to receive(:new).and_return(post)
   end
@@ -172,6 +174,29 @@ describe PostsController do
         
         expect(response).to eq(expected_response)
       end
+    end
+  end
+
+  describe 'show_all_posts' do
+    it 'should response with the data in array form and status code 200' do
+      expected_response = {
+        status: 200,  
+        message: 'success',
+        data:[{
+          id: @post_data['id'] ,
+          parent_id: nil ,
+          user_id: @post_data['user_id'] ,
+          text_content: @post_data['text_content'] ,
+          attachment: @post_data['attachment'] ,
+          created_at: @post_data['created_at']
+        }]
+      }.to_json
+
+
+      controller = PostsController.new
+      response = controller.show_all_posts()
+      
+      expect(response).to eq(expected_response)
     end
   end
 
