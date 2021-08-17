@@ -31,6 +31,13 @@ class UsersController
   def show_by_id(id)
     user = User::find_by_id(id)
     
+    if user == nil
+      return ({
+        status: 404,
+        message: "resource not found"
+      }).to_json
+    end
+
     return ({
       status: 200,
       message: "success",
