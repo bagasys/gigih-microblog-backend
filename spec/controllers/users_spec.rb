@@ -78,6 +78,23 @@ describe UsersController do
       response = controller.create(params)
       expect(response).to eq(expected_response)
     end
+
+    it "should return status 400 bad request when username is empty string" do
+      expected_response = {
+        status: 400,  
+        message: 'bad request',
+      }.to_json
+        
+      params = {
+        'username' => '',
+        'email' => @user_data['email'],
+        'bio' => @user_data['bio'],
+      }
+
+      controller = UsersController.new
+      response = controller.create(params)
+      expect(response).to eq(expected_response)
+    end
   end
 
   
