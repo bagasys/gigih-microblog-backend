@@ -155,6 +155,24 @@ describe PostsController do
         expect(response).to eq(expected_response)
       end
     end
+
+    context 'when no post is found' do
+      it "should return response status code 400 bad request" do
+        expected_response = {
+          status: 404,  
+          message: 'resource not found',
+        }.to_json
+          
+        params = @post_data['id']
+
+        allow(Post).to receive(:find_by_id).and_return(nil)
+
+        controller = PostsController.new
+        response = controller.show_by_id(params)
+        
+        expect(response).to eq(expected_response)
+      end
+    end
   end
 
   
