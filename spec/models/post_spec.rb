@@ -223,11 +223,23 @@ describe Post do
     before :each do
       @query_result = @posts_data
       allow(@client).to receive(:query).and_return(@query_result)
-  
+      allow(@client).to receive(:close)
     end
     it "should close the db connection." do
       expect(@client).to receive(:close)
       posts = Post::find_all
+    end
+
+    it "should return empty array when the query return 0 rows" do
+      allow(@client).to receive(:query).and_return([])
+      
+      expect(Post::find_all).to eq([])
+    end
+
+    it "should return an array which length equals to query result" do
+      allow(@client).to receive(:query).and_return(@posts_data)
+      
+      expect(Post::find_all.length).to eq(@posts_data.length)
     end
   end
 
