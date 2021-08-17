@@ -23,6 +23,8 @@ describe PostsController do
     allow(post).to receive(:created_at).and_return(@post_data["created_at"])
     allow(post).to receive(:save).and_return(true)
 
+    allow(Post).to receive(:find_by_id).and_return(post)
+
     allow(Post).to receive(:new).and_return(post)
   end
 
@@ -123,6 +125,32 @@ describe PostsController do
         allow(Hashtag).to receive(:save_hashtags_from_post)
         controller = PostsController.new
         response = controller.create(params)
+        
+        expect(response).to eq(expected_response)
+      end
+    end
+  end
+
+  describe 'show_by_id' do
+    context 'when given valid arguments' do
+      it "should return response status 200 with the user data" do
+        expected_response = {
+          status: 200,  
+          message: 'success',
+          data: {
+            id: @post_data['id'] ,
+            parent_id: nil ,
+            user_id: @post_data['user_id'] ,
+            text_content: @post_data['text_content'] ,
+            attachment: @post_data['attachment'] ,
+            created_at: @post_data['created_at']
+          }
+        }.to_json
+          
+        params = @post_data['id']
+
+        controller = PostsController.new
+        response = controller.show_by_id(params)
         
         expect(response).to eq(expected_response)
       end
