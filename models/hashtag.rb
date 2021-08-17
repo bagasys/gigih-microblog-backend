@@ -28,6 +28,7 @@ class Hashtag
     end
 
     client.close
+    return true
   end
   
 
