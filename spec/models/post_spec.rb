@@ -266,5 +266,13 @@ describe Post do
       
       expect(Post::find_all_by_hashtag("#Gigih").length).to eq(@posts_data.length)
     end
+
+    it "should add # sign if the argument given doesn't contain # sign." do
+      expect(@client).to receive(:query).with("SELECT * FROM posts WHERE id IN (SELECT post_id FROM hashtags WHERE name='#GIGIH')").and_return(@posts_data)
+      
+      expect(Post::find_all_by_hashtag("GIGIH").length).to eq(@posts_data.length)
+    end
+
+
   end
 end
