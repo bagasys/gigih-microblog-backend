@@ -33,6 +33,12 @@ class PostsController
   def show_by_id(id)
     post = Post::find_by_id(id)
     
+    if post == nil
+      return ({
+        status: 404,
+        message: "resource not found"
+      }).to_json
+    end
     
 
     return ({
