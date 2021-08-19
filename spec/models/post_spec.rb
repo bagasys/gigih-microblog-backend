@@ -364,4 +364,32 @@ describe Post do
       expect(post.extract_hashtags_from_text_content).to eq(["#gigih", "#bisa"])
     end
   end
+
+  describe 'generate_insert_hashtags_query_text' do
+    it "should return an empty string if there is no hashtags" do
+      params = {
+        :id => 1,
+        :parent_id => 2,
+        :user_id => 3,
+        :text_content => "Halooo ",
+        :attachment => "files/a.jpg",
+        :created_at => "2021-08-1 17:30:00"
+      }
+      post = Post.new(params)
+      expect(post.generate_insert_hashtags_query_text).to eq("")
+    end
+
+    it "should return the right query if there is hashtag(s)" do
+      params = {
+        :id => 1,
+        :parent_id => 2,
+        :user_id => 3,
+        :text_content => "Halooo  #gigih #bisa",
+        :attachment => "files/a.jpg",
+        :created_at => "2021-08-1 17:30:00"
+      }
+      post = Post.new(params)
+      expect(post.generate_insert_hashtags_query_text).to eq("INSERT INTO hashtags (post_id, name) VALUES (1, '#gigih'), (1, '#bisa')")
+    end
+  end
 end

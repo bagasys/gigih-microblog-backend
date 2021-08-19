@@ -42,6 +42,19 @@ class Post
     end
   end
 
+  def generate_insert_hashtags_query_text()
+    hashtags = extract_hashtags_from_text_content
+    return "" if hashtags.length < 1
+    query_text = "INSERT INTO hashtags (post_id, name) VALUES "
+    hashtags.each_with_index do |hashtag, index|
+      if index != 0
+        query_text += ", "  
+      end
+      query_text += "(#{@id}, '#{hashtag}')"
+    end
+    query_text
+  end
+
   def save    
     return false unless self.valid?
     
@@ -60,6 +73,9 @@ class Post
       break
     end
 
+
+    query_text = generate_insert_hashtags_query_text
+    client.query(query_text) unless query_text == ""
 
     client.close
     return true
