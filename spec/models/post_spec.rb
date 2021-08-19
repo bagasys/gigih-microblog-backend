@@ -335,7 +335,7 @@ describe Post do
         :created_at => "2021-08-1 17:30:00"
       }
       post = Post.new(params)
-      expect(post.extract_hashtags_from_text_content).to eq(["#GIGIH", "#BISA"])
+      expect(post.extract_hashtags_from_text_content).to eq(["#gigih", "#bisa"])
     end
 
     it "should return list of the unique hashtags exists in @text_content" do
@@ -348,7 +348,20 @@ describe Post do
         :created_at => "2021-08-1 17:30:00"
       }
       post = Post.new(params)
-      expect(post.extract_hashtags_from_text_content).to eq(["#GIGIH", "#BISA"])
+      expect(post.extract_hashtags_from_text_content).to eq(["#gigih", "#bisa"])
+    end
+
+    it "should be case insensitive" do
+      params = {
+        :id => 1,
+        :parent_id => 2,
+        :user_id => 3,
+        :text_content => "Halooo #GIGIH #gigih #BISA",
+        :attachment => "files/a.jpg",
+        :created_at => "2021-08-1 17:30:00"
+      }
+      post = Post.new(params)
+      expect(post.extract_hashtags_from_text_content).to eq(["#gigih", "#bisa"])
     end
   end
 end
