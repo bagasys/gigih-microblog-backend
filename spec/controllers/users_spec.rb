@@ -50,6 +50,8 @@ describe UsersController do
           'bio' => @user_data['bio'],
         }
         allow(@user).to receive(:valid?).and_return(true)
+        allow(@user).to receive(:exist?).and_return(false)
+
         controller = UsersController.new
         response = controller.create(params)
         expect(response).to eq(expected_response)
@@ -68,6 +70,24 @@ describe UsersController do
           'bio' => @user_data['bio'],
         }
         allow(@user).to receive(:valid?).and_return(false)
+
+        controller = UsersController.new
+        response = controller.create(params)
+        expect(response).to eq(expected_response)
+      end
+
+      it "should return status 400 when user already exist" do
+        expected_response = {
+          status: 400,  
+          message: 'user with the same email or username is exist already',
+        }
+          
+        params = {
+          'email' => @user_data['email'],
+          'bio' => @user_data['bio'],
+        }
+        allow(@user).to receive(:valid?).and_return(true)
+        allow(@user).to receive(:exist?).and_return(true)
         controller = UsersController.new
         response = controller.create(params)
         expect(response).to eq(expected_response)
