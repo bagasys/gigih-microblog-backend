@@ -8,12 +8,12 @@ describe HashtagsController do
       'total_occurences'=> 100, 
     }
 
-    hashtag = double
+    @hashtag = double
 
-    allow(hashtag).to receive(:name).and_return(@hashtag_data["name"])
-    allow(hashtag).to receive(:total_occurences).and_return(@hashtag_data["total_occurences"])
+    allow(@hashtag).to receive(:name).and_return(@hashtag_data["name"])
+    allow(@hashtag).to receive(:total_occurences).and_return(@hashtag_data["total_occurences"])
     
-    allow(Hashtag).to receive(:find_trendings).and_return([hashtag])
+    allow(Hashtag).to receive(:find_trendings).and_return([@hashtag])
 
   end
   describe 'show_trending_hashtags' do
@@ -21,8 +21,8 @@ describe HashtagsController do
       expected_response = {
         status: 200,  
         message: 'success',
-        data:[@hashtag_data]
-      }.to_json
+        data:[{name: @hashtag.name, total_occurences: @hashtag.total_occurences}]
+      }
 
       controller = HashtagsController.new
       response = controller.show_trending_hashtags()

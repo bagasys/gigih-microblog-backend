@@ -15,6 +15,6 @@ class HashtagsController
       status: 200,
       message: "success",
       data: data
-    }).to_json
+    })
   end
 end
