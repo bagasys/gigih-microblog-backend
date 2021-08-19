@@ -293,4 +293,20 @@ describe PostsController do
     end
   end
 
+  describe 'index' do
+    context 'when given hashtag as params' do
+      it 'should invoke the method to show posts based on their hashtag' do
+        params = {
+          "hashtag" => "#gigih"
+        }
+        
+        controller = PostsController.new
+        expect(controller).to receive(:show_posts_by_hashtag).with(params["hashtag"])
+        
+        controller.index(params)
+      end  
+    end
+    
+  end
+
 end
