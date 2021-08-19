@@ -7,7 +7,7 @@ describe PostsController do
       'id'=> 3, 
       'user_id'=> 'john', 
       'text_content'=> 'john@gmail.com', 
-      'attachment'=> '/public/images/a.jpg', 
+      'attachment'=> nil, 
       'parent_id'=> 1, 
       'created_at'=> '2021-08-1 17:30:00'
     }
@@ -54,7 +54,6 @@ describe PostsController do
         params = {
           'user_id' => @post_data['user_id'] ,
           'text_content'=> @post_data['text_content'] ,
-          'attachment'=> @post_data['attachment'] ,
         }
         allow(Hashtag).to receive(:save_hashtags_from_post)
         controller = PostsController.new
@@ -62,6 +61,30 @@ describe PostsController do
         
         expect(response).to eq(expected_response)
       end
+
+      it "it should save the file when there is attachment" do
+        attachment = double
+        allow(attachment).to receive("[]").with("filename").and_return("babi.jpg")
+        allow(attachment).to receive(:key?).with("filename").and_return(true)
+
+        file = double
+        expect(file).to receive(:write)
+        allow(file).to receive(:read)
+        allow(attachment).to receive("[]").with("tempfile").and_return(file)
+        
+        
+        allow(File).to receive(:open) { |&block| block.call(file) }
+        
+        params = {
+          'user_id' => @post_data['user_id'] ,
+          'text_content'=> @post_data['text_content'],
+          'attachment' => attachment
+        }
+        controller = PostsController.new
+        response = controller.create(params)
+      end
+
+      
     end
 
     context 'when given invalid arguments' do
@@ -251,7 +274,4 @@ describe PostsController do
     end
   end
 
-  
-
-  
 end
