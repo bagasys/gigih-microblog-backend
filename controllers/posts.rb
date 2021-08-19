@@ -29,14 +29,7 @@ class PostsController
       return ({
       status: 201,
       message: "success",
-      data: {
-        id: post.id,
-        parent_id: post.parent_id,
-        user_id: post.user_id,
-        text_content: post.text_content,
-        attachment: post.attachment,
-        created_at: post.created_at
-      }
+      data: post.to_hash
     })
     end
   end
@@ -54,14 +47,7 @@ class PostsController
     return ({
       status: 200,
       message: "success",
-      data: {
-        id: post.id,
-        parent_id: post.parent_id,
-        user_id: post.user_id,
-        text_content: post.text_content,
-        attachment: post.attachment,
-        created_at: post.created_at
-      }
+      data: post.to_hash
     })
   end
 
@@ -79,14 +65,7 @@ class PostsController
     
     data = []
     posts.each do |post|
-      data << ({
-        id: post.id,
-        parent_id: post.parent_id,
-        user_id: post.user_id,
-        text_content: post.text_content,
-        attachment: post.attachment,
-        created_at: post.created_at
-      })
+      data << post.to_hash
     end
 
     return ({
@@ -101,14 +80,7 @@ class PostsController
     
     data = []
     posts.each do |post|
-      data << ({
-        id: post.id,
-        parent_id: post.parent_id,
-        user_id: post.user_id,
-        text_content: post.text_content,
-        attachment: post.attachment,
-        created_at: post.created_at
-      })
+      data << post.to_hash
     end
 
     return ({
@@ -123,14 +95,7 @@ class PostsController
     
     data = []
     posts.each do |post|
-      data << ({
-        id: post.id,
-        parent_id: post.parent_id,
-        user_id: post.user_id,
-        text_content: post.text_content,
-        attachment: post.attachment,
-        created_at: post.created_at
-      })
+      data << post.to_hash
     end
 
     return ({

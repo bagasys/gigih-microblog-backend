@@ -12,45 +12,47 @@ describe PostsController do
       'created_at'=> '2021-08-1 17:30:00'
     }
 
-    post = double
+    @post = double
 
-    allow(post).to receive(:id).and_return(@post_data["id"])
-    allow(post).to receive(:parent_id).and_return(nil)
-    allow(post).to receive(:user_id).and_return(@post_data["user_id"])
-    allow(post).to receive(:email).and_return(@post_data["email"])
-    allow(post).to receive(:text_content).and_return(@post_data["text_content"])
-    allow(post).to receive(:attachment).and_return(@post_data["attachment"])
-    allow(post).to receive(:created_at).and_return(@post_data["created_at"])
-    allow(post).to receive(:save).and_return(true)
+    allow(@post).to receive(:id).and_return(@post_data["id"])
+    allow(@post).to receive(:parent_id).and_return(nil)
+    allow(@post).to receive(:user_id).and_return(@post_data["user_id"])
+    allow(@post).to receive(:email).and_return(@post_data["email"])
+    allow(@post).to receive(:text_content).and_return(@post_data["text_content"])
+    allow(@post).to receive(:attachment).and_return(@post_data["attachment"])
+    allow(@post).to receive(:created_at).and_return(@post_data["created_at"])
 
-    allow(Post).to receive(:find_by_id).and_return(post)
+    allow(@post).to receive(:save).and_return(true)
+
+    allow(Post).to receive(:find_by_id).and_return(@post)
     
-    allow(Post).to receive(:find_all).and_return([post])
+    allow(Post).to receive(:find_all).and_return([@post])
 
-    allow(Post).to receive(:find_all_by_hashtag).and_return([post])
-    allow(Post).to receive(:find_all_by_parent_id).and_return([post])
+    allow(Post).to receive(:find_all_by_hashtag).and_return([@post])
+    allow(Post).to receive(:find_all_by_parent_id).and_return([@post])
 
-    allow(Post).to receive(:new).and_return(post)
-
-    @post = post
+    allow(Post).to receive(:new).and_return(@post)
   end
 
   describe 'create' do
     context 'when given valid arguments' do
       it "should response with status code 201" do
+        post_hash = {
+          id: @post_data['id'] ,
+          parent_id: nil ,
+          user_id: @post_data['user_id'] ,
+          text_content: @post_data['text_content'] ,
+          attachment: @post_data['attachment'] ,
+          created_at: @post_data['created_at']
+        }
         expected_response = {
           status: 201,  
           message: 'success',
-          data: {
-            id: @post_data['id'] ,
-            parent_id: nil ,
-            user_id: @post_data['user_id'] ,
-            text_content: @post_data['text_content'] ,
-            attachment: @post_data['attachment'] ,
-            created_at: @post_data['created_at']
-          }
+          data: post_hash
         }
-          
+        
+        allow(@post).to receive(:to_hash).and_return(post_hash)
+
         params = {
           'user_id' => @post_data['user_id'] ,
           'text_content'=> @post_data['text_content'] ,
@@ -74,7 +76,7 @@ describe PostsController do
         
         
         allow(File).to receive(:open) { |&block| block.call(file) }
-        
+        allow(@post).to receive(:to_hash).and_return({})
         params = {
           'user_id' => @post_data['user_id'] ,
           'text_content'=> @post_data['text_content'],
@@ -96,7 +98,7 @@ describe PostsController do
         
         
         allow(File).to receive(:open) { |&block| block.call(file) }
-        
+        allow(@post).to receive(:to_hash).and_return({})
         params = {
           'user_id' => @post_data['user_id'] ,
           'text_content'=> @post_data['text_content'],
@@ -186,19 +188,23 @@ describe PostsController do
   describe 'show_by_id' do
     context 'when given valid arguments' do
       it "should return response status 200 with the user data" do
+        post_hash = {
+          id: @post_data['id'] ,
+          parent_id: nil ,
+          user_id: @post_data['user_id'] ,
+          text_content: @post_data['text_content'] ,
+          attachment: @post_data['attachment'] ,
+          created_at: @post_data['created_at']
+        }
+
         expected_response = {
           status: 200,  
           message: 'success',
-          data: {
-            id: @post_data['id'] ,
-            parent_id: nil ,
-            user_id: @post_data['user_id'] ,
-            text_content: @post_data['text_content'] ,
-            attachment: @post_data['attachment'] ,
-            created_at: @post_data['created_at']
-          }
+          data: post_hash
         }
-          
+        
+        allow(@post).to receive(:to_hash).and_return(post_hash)
+
         params = @post_data['id']
 
         controller = PostsController.new
@@ -229,18 +235,21 @@ describe PostsController do
 
   describe 'show_all_posts' do
     it 'should response with the data in array form and status code 200' do
+      post_hash = {
+        id: @post_data['id'] ,
+        parent_id: nil ,
+        user_id: @post_data['user_id'] ,
+        text_content: @post_data['text_content'] ,
+        attachment: @post_data['attachment'] ,
+        created_at: @post_data['created_at']
+      }
       expected_response = {
         status: 200,  
         message: 'success',
-        data:[{
-          id: @post_data['id'] ,
-          parent_id: nil ,
-          user_id: @post_data['user_id'] ,
-          text_content: @post_data['text_content'] ,
-          attachment: @post_data['attachment'] ,
-          created_at: @post_data['created_at']
-        }]
+        data:[post_hash]
       }
+
+      allow(@post).to receive(:to_hash).and_return(post_hash)
 
       controller = PostsController.new
       response = controller.show_all_posts()
@@ -251,19 +260,22 @@ describe PostsController do
 
   describe 'show_posts_by_hashtag' do
     it 'should response with the data in array form and status code 200' do
+      post_hash = {
+        id: @post_data['id'] ,
+        parent_id: nil ,
+        user_id: @post_data['user_id'] ,
+        text_content: @post_data['text_content'] ,
+        attachment: @post_data['attachment'] ,
+        created_at: @post_data['created_at']
+      }
+      
       expected_response = {
         status: 200,  
         message: 'success',
-        data:[{
-          id: @post_data['id'] ,
-          parent_id: nil ,
-          user_id: @post_data['user_id'] ,
-          text_content: @post_data['text_content'] ,
-          attachment: @post_data['attachment'] ,
-          created_at: @post_data['created_at']
-        }]
+        data:[post_hash]
       }
 
+      allow(@post).to receive(:to_hash).and_return(post_hash)
       controller = PostsController.new
       response = controller.show_posts_by_hashtag("#gigih")
       
@@ -273,19 +285,22 @@ describe PostsController do
 
   describe 'show_posts_by_parent_id' do
     it 'should response with the data in array form and status code 200' do
+      post_hash = {
+        id: @post_data['id'] ,
+        parent_id: nil ,
+        user_id: @post_data['user_id'] ,
+        text_content: @post_data['text_content'] ,
+        attachment: @post_data['attachment'] ,
+        created_at: @post_data['created_at']
+      }
+
       expected_response = {
         status: 200,  
         message: 'success',
-        data:[{
-          id: @post_data['id'] ,
-          parent_id: nil ,
-          user_id: @post_data['user_id'] ,
-          text_content: @post_data['text_content'] ,
-          attachment: @post_data['attachment'] ,
-          created_at: @post_data['created_at']
-        }]
+        data:[post_hash]
       }
 
+      allow(@post).to receive(:to_hash).and_return(post_hash)
       controller = PostsController.new
       response = controller.show_posts_by_parent_id(1)
       
