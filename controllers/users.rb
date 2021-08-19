@@ -17,13 +17,7 @@ class UsersController
       return ({
       status: 201,
       message: "success",
-      data: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        bio: user.bio,
-        created_at: user.created_at
-      }
+      data: user.to_hash
     })
     end
   end
@@ -41,13 +35,7 @@ class UsersController
     return ({
       status: 200,
       message: "success",
-      data: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        bio: user.bio,
-        created_at: user.created_at
-      }
+      data: user.to_hash
     })
   end
 
@@ -64,13 +52,7 @@ class UsersController
     return ({
       status: 200,
       message: "success",
-      data: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        bio: user.bio,
-        created_at: user.created_at
-      }
+      data: user.to_hash
     })
   end
 end
