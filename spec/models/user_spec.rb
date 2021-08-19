@@ -123,6 +123,23 @@ describe User do
     end
   end
 
+  describe "exist?" do
+    it "should return false if the user already exists" do
+      user = User.new(
+        username: "bagasys",
+        email: "bagasys@gmail.com",
+      )
+      query =  "SELECT COUNT(*) as count FROM users WHERE username='bagasys' OR email='bagasys@gmail.com'"
+      query_result = double
+      first_row = {"count" => 1}
+      allow(query_result).to receive(:first).and_return(first_row)
+      allow(@client).to receive(:query).with(query).and_return(query_result)
+      allow(@client).to receive(:close)
+      
+      expect(user.exist?).to eq(false)
+    end
+  end
+
   describe 'save' do
     context 'given valid arguments' do
       before :each do
