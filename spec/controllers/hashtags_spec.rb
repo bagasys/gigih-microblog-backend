@@ -1,5 +1,6 @@
 require_relative '../../controllers/hashtags.rb'
 require 'json'
+require "sinatra/namespace"
 
 describe HashtagsController do
   before :each do
