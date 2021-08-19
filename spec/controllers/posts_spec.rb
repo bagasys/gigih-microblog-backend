@@ -49,7 +49,7 @@ describe PostsController do
             attachment: @post_data['attachment'] ,
             created_at: @post_data['created_at']
           }
-        }.to_json
+        }
           
         params = {
           'user_id' => @post_data['user_id'] ,
@@ -114,7 +114,7 @@ describe PostsController do
         expected_response = {
           status: 400,  
           message: 'bad request',
-        }.to_json
+        }
           
         params = {
           'text_content'=> @post_data['text_content'] ,
@@ -131,7 +131,7 @@ describe PostsController do
         expected_response = {
           status: 400,  
           message: 'bad request',
-        }.to_json
+        }
           
         params = {
           'user_id' => '' ,
@@ -149,7 +149,7 @@ describe PostsController do
         expected_response = {
           status: 400,  
           message: 'bad request',
-        }.to_json
+        }
           
         params = {
           'user_id' => @post_data['user_id'],
@@ -166,7 +166,7 @@ describe PostsController do
         expected_response = {
           status: 400,  
           message: 'bad request',
-        }.to_json
+        }
           
         params = {
           'text_content'=> '' ,
@@ -197,7 +197,7 @@ describe PostsController do
             attachment: @post_data['attachment'] ,
             created_at: @post_data['created_at']
           }
-        }.to_json
+        }
           
         params = @post_data['id']
 
@@ -213,7 +213,7 @@ describe PostsController do
         expected_response = {
           status: 404,  
           message: 'resource not found',
-        }.to_json
+        }
           
         params = @post_data['id']
 
@@ -240,8 +240,7 @@ describe PostsController do
           attachment: @post_data['attachment'] ,
           created_at: @post_data['created_at']
         }]
-      }.to_json
-
+      }
 
       controller = PostsController.new
       response = controller.show_all_posts()
@@ -263,8 +262,7 @@ describe PostsController do
           attachment: @post_data['attachment'] ,
           created_at: @post_data['created_at']
         }]
-      }.to_json
-
+      }
 
       controller = PostsController.new
       response = controller.show_posts_by_hashtag("#gigih")
@@ -286,8 +284,7 @@ describe PostsController do
           attachment: @post_data['attachment'] ,
           created_at: @post_data['created_at']
         }]
-      }.to_json
-
+      }
 
       controller = PostsController.new
       response = controller.show_posts_by_parent_id(1)
