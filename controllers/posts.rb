@@ -65,6 +65,13 @@ class PostsController
     })
   end
 
+
+  def index(params)
+    if params["hashtag"]
+      self.show_posts_by_hashtag(params["hashtag"])
+    end
+  end
+
   def show_all_posts()
     posts = Post::find_all
     
