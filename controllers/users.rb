@@ -4,14 +4,16 @@ require "sinatra"
 
 class UsersController
   def create(params)
-    if params['username'].nil? || params['username'] == '' || params['email'].nil? || params['email'] == ''
+    user = User.new(username: params[:username], email: params[:email], bio: params[:bio])
+
+    if !user.valid?
       return ({
         status: 400,
         message: "bad request"
       })
     end
     
-    user = User.new(username: params[:username], email: params[:email], bio: params[:bio])
+    
     
     if user.save
       return ({

@@ -49,7 +49,7 @@ describe UsersController do
           'email' => @user_data['email'],
           'bio' => @user_data['bio'],
         }
-
+        allow(@user).to receive(:valid?).and_return(true)
         controller = UsersController.new
         response = controller.create(params)
         expect(response).to eq(expected_response)
@@ -57,7 +57,7 @@ describe UsersController do
     end
 
     context 'when given invalid arguments' do
-      it "should return status 400 when no username is given" do
+      it "should return status 400" do
         expected_response = {
           status: 400,  
           message: 'bad request',
@@ -67,57 +67,7 @@ describe UsersController do
           'email' => @user_data['email'],
           'bio' => @user_data['bio'],
         }
-
-        controller = UsersController.new
-        response = controller.create(params)
-        expect(response).to eq(expected_response)
-      end
-
-      it "should return status 400 when no email is given" do
-        expected_response = {
-          status: 400,  
-          message: 'bad request',
-        }
-          
-        params = {
-          'username' => @user_data['username'],
-          'bio' => @user_data['bio'],
-        }
-    
-        controller = UsersController.new
-        response = controller.create(params)
-        expect(response).to eq(expected_response)
-      end
-
-      it "should return status 400 bad request when username is empty string" do
-        expected_response = {
-          status: 400,  
-          message: 'bad request',
-        }
-          
-        params = {
-          'username' => '',
-          'email' => @user_data['email'],
-          'bio' => @user_data['bio'],
-        }
-
-        controller = UsersController.new
-        response = controller.create(params)
-        expect(response).to eq(expected_response)
-      end
-
-      it "should return status 400 when email is an empty string" do
-        expected_response = {
-          status: 400,  
-          message: 'bad request',
-        }
-          
-        params = {
-          'email' => '',
-          'username' => @user_data['username'],
-          'bio' => @user_data['bio'],
-        }
-    
+        allow(@user).to receive(:valid?).and_return(false)
         controller = UsersController.new
         response = controller.create(params)
         expect(response).to eq(expected_response)
