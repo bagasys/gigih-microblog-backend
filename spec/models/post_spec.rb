@@ -5,7 +5,7 @@ describe Post do
     @posts_data = [
       {
         id: 3, 
-        user_id: 'john', 
+        user_id: 1, 
         text_content: 'john@gmail.com', 
         attachment: '/public/images/a.jpg', 
         parent_id: 1, 
@@ -13,7 +13,7 @@ describe Post do
       },
       {
         id: 2, 
-        user_id: 'doe', 
+        user_id: 2, 
         text_content: 'doe@gmail.com', 
         attachment: '/public/images/a.jpg', 
         parent_id: 3, 
@@ -138,7 +138,7 @@ describe Post do
     context 'given valid arguments' do
       before :each do
         @post_data = @posts_data[0]
-        @query1 = "INSERT INTO posts (user_id, text_content) VALUES ('#{@post_data[:user_id]}', '#{@post_data[:text_content]}')"
+        @query1 = "INSERT INTO posts (user_id, text_content) VALUES (#{@post_data[:user_id]}, '#{@post_data[:text_content]}')"
         @query2 = "SELECT * FROM posts WHERE id=#{@post_data[:id]}"
         query2_response = [{
         'id' => @post_data[:id],
@@ -164,7 +164,6 @@ describe Post do
           text_content: @post_data[:text_content],
         )
         expect(@client).to receive(:query).with(@query1)
-        # expect(@client).to receive(:query).with(@query2)
         @post.save()
       end
 
@@ -175,7 +174,7 @@ describe Post do
           parent_id: @post_data[:parent_id],
           attachment: @post_data[:attachment]
         )
-        query = "INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES ('#{@post_data[:user_id]}', '#{@post_data[:text_content]}', #{@post_data[:parent_id]}, '#{@post_data[:attachment]}')"
+        query = "INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES (#{@post_data[:user_id]}, '#{@post_data[:text_content]}', #{@post_data[:parent_id]}, '#{@post_data[:attachment]}')"
         expect(@client).to receive(:query).with(query)
         @post.save()
       end
@@ -322,6 +321,21 @@ describe Post do
       }
       post = Post.new(params)
       expect(post.to_hash).to eq(params)
+    end
+  end
+
+  describe  'extract_hashtags_from_text_content' do
+    it "should return list of the hashtags exists in @text_content" do
+      params = {
+        :id => 1,
+        :parent_id => 2,
+        :user_id => 3,
+        :text_content => "Halooo #GIGIH #BISA",
+        :attachment => "files/a.jpg",
+        :created_at => "2021-08-1 17:30:00"
+      }
+      post = Post.new(params)
+      expect(post.extract_hashtags_from_text_content).to eq(["#GIGIH", "#BISA"])
     end
   end
 end

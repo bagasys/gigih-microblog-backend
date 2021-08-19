@@ -53,6 +53,7 @@ class User
     client = create_db_client
     rows = client.query("SELECT * FROM users WHERE id = #{id}")
     client.close
+
     user = nil
     rows.each do |row|
       user = User.new({

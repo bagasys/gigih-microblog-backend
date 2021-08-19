@@ -7,30 +7,6 @@ class Hashtag
     @total_occurences = params[:total_occurences]
   end
 
-  def self.extract_hashtags_from_text(text)
-    text.scan(/#[a-zA-Z]+/)
-  end
-
-  def self.save_hashtags_from_post(text, post_id)
-    client = create_db_client
-
-    hashtags = text.scan(/#[a-zA-Z]+/)
-
-    if !hashtags.empty?
-      query_text = "INSERT INTO hashtags (post_id, name) VALUES "
-      hashtags.each_with_index do |hashtag, index|
-        if index != 0
-          query_text += ", "  
-        end
-        query_text += "(#{post_id}, '#{hashtag}')"
-      end
-      client.query(query_text)
-    end
-
-    client.close
-    return true
-  end
-
   def self.find_trendings
     client = create_db_client
 

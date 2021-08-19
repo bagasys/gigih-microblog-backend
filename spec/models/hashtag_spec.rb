@@ -24,49 +24,49 @@ describe Hashtag do
     end
   end
 
-  describe 'extract_hashtags_from_text' do
-    it 'should return all the hashtags exists in text' do
-      hashtags = Hashtag::extract_hashtags_from_text('Halo #GIGIH #HeHe Oke.')
-      expect(hashtags).to eq(['#GIGIH', '#HeHe'])
-    end
+  # describe 'extract_hashtags_from_text' do
+  #   it 'should return all the hashtags exists in text' do
+  #     hashtags = Hashtag::extract_hashtags_from_text('Halo #GIGIH #HeHe Oke.')
+  #     expect(hashtags).to eq(['#GIGIH', '#HeHe'])
+  #   end
 
-    it 'should return empty array when there is no hashtag in the text.' do
-      hashtags = Hashtag::extract_hashtags_from_text('Halo GIGIH HeHe Oke.')
-      expect(hashtags).to eq([])
-    end
-  end
+  #   it 'should return empty array when there is no hashtag in the text.' do
+  #     hashtags = Hashtag::extract_hashtags_from_text('Halo GIGIH HeHe Oke.')
+  #     expect(hashtags).to eq([])
+  #   end
+  # end
 
-  describe 'save_hashtags_from_post' do
-    before :each do
-      @text_content = "Halo #GIGIH #HeHe Oke."
-      @post_id = 2
-      @extracted_tags = ["#GIGIH", "#HeHe"]
-      allow(Hashtag).to receive(:extract_hashtags_from_text).with(@text_content).and_return(@extracted_tags)
+  # describe 'save_hashtags_from_post' do
+  #   before :each do
+  #     @text_content = "Halo #GIGIH #HeHe Oke."
+  #     @post_id = 2
+  #     @extracted_tags = ["#GIGIH", "#HeHe"]
+  #     allow(Hashtag).to receive(:extract_hashtags_from_text).with(@text_content).and_return(@extracted_tags)
 
-      @query = "INSERT INTO hashtags (post_id, name) VALUES (#{@post_id}, '#{@extracted_tags[0]}'), (#{@post_id}, '#{@extracted_tags[1]}')"
+  #     @query = "INSERT INTO hashtags (post_id, name) VALUES (#{@post_id}, '#{@extracted_tags[0]}'), (#{@post_id}, '#{@extracted_tags[1]}')"
       
-      allow(@client).to receive(:query).with(@query)
-    end
+  #     allow(@client).to receive(:query).with(@query)
+  #   end
 
-    it 'should execute the right query according to the argument given' do
-      expect(@client).to receive(:query).with(@query)
-      Hashtag::save_hashtags_from_post(@text_content, @post_id)
-    end
+  #   it 'should execute the right query according to the argument given' do
+  #     expect(@client).to receive(:query).with(@query)
+  #     Hashtag::save_hashtags_from_post(@text_content, @post_id)
+  #   end
 
-    it 'should not execute any query if the text given contains no hashtag.' do
-      expect(@client).not_to receive(:query)
-      Hashtag::save_hashtags_from_post("Babibu Haha GIGIH", @post_id)
-    end
+  #   it 'should not execute any query if the text given contains no hashtag.' do
+  #     expect(@client).not_to receive(:query)
+  #     Hashtag::save_hashtags_from_post("Babibu Haha GIGIH", @post_id)
+  #   end
 
-    it 'should close the db connection.' do
-      expect(@client).to receive(:close)
-      Hashtag::save_hashtags_from_post(@text_content, @post_id)
-    end
+  #   it 'should close the db connection.' do
+  #     expect(@client).to receive(:close)
+  #     Hashtag::save_hashtags_from_post(@text_content, @post_id)
+  #   end
 
-    it 'should return true after all things done.' do
-      expect(Hashtag::save_hashtags_from_post(@text_content, @post_id)).to be(true)
-    end
-  end
+  #   it 'should return true after all things done.' do
+  #     expect(Hashtag::save_hashtags_from_post(@text_content, @post_id)).to be(true)
+  #   end
+  # end
 
   describe 'find_trendings' do
     it 'should return empty array when the query return nothing' do

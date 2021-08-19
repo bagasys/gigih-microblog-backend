@@ -25,7 +25,6 @@ class PostsController
     post = Post.new(user_id: params['user_id'], text_content: params['text_content'], parent_id: params['parent_id'], attachment: attachment)
 
     if post.save
-      Hashtag::save_hashtags_from_post(post.text_content, post.id)
       return ({
       status: 201,
       message: "success",

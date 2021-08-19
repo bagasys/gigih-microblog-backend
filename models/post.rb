@@ -36,13 +36,13 @@ class Post
     client = create_db_client
     
     if !@parent_id.nil? && !@attachment.nil?
-      client.query("INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES ('#{@user_id}', '#{@text_content}', #{@parent_id}, '#{@attachment}')")
+      client.query("INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES (#{@user_id}, '#{@text_content}', #{@parent_id}, '#{@attachment}')")
     elsif !@parent_id.nil?
       client.query("INSERT INTO posts (user_id, text_content, parent_id) VALUES (#{@user_id}, '#{@text_content}', '#{@parent_id}')")
     elsif !@attachment.nil?
       client.query("INSERT INTO posts (user_id, text_content, attachment) VALUES (#{@user_id}, '#{@text_content}', '#{@attachment}')")
     else
-      client.query("INSERT INTO posts (user_id, text_content) VALUES ('#{@user_id}', '#{@text_content}')")
+      client.query("INSERT INTO posts (user_id, text_content) VALUES (#{@user_id}, '#{@text_content}')")
     end
 
     id = client.last_id
@@ -50,15 +50,18 @@ class Post
       "SELECT * FROM posts WHERE id=#{id}"
     )
 
-    client.close()
-
     rows.each do |row|
       @id = row["id"]
       @created_at = row['created_at']
       break
     end
 
+
+    client.close
     return true
+  end
+
+  def extract_hashtags_from_text_content
   end
 
   def self.find_by_id(id)

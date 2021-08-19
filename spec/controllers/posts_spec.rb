@@ -57,7 +57,7 @@ describe PostsController do
           'user_id' => @post_data['user_id'] ,
           'text_content'=> @post_data['text_content'] ,
         }
-        allow(Hashtag).to receive(:save_hashtags_from_post)
+        
         controller = PostsController.new
         response = controller.create(params)
         
@@ -122,7 +122,7 @@ describe PostsController do
           'text_content'=> @post_data['text_content'] ,
           'attachment'=> @post_data['attachment'] ,
         }
-        allow(Hashtag).to receive(:save_hashtags_from_post)
+        
         controller = PostsController.new
         response = controller.create(params)
         
@@ -140,7 +140,7 @@ describe PostsController do
           'text_content'=> @post_data['text_content'] ,
           'attachment'=> @post_data['attachment'] ,
         }
-        allow(Hashtag).to receive(:save_hashtags_from_post)
+        
         controller = PostsController.new
         response = controller.create(params)
         
@@ -157,7 +157,7 @@ describe PostsController do
           'user_id' => @post_data['user_id'],
           'attachment'=> @post_data['attachment'] ,
         }
-        allow(Hashtag).to receive(:save_hashtags_from_post)
+        
         controller = PostsController.new
         response = controller.create(params)
         
@@ -176,7 +176,7 @@ describe PostsController do
           'attachment'=> @post_data['attachment'] ,
         }
 
-        allow(Hashtag).to receive(:save_hashtags_from_post)
+        
         controller = PostsController.new
         response = controller.create(params)
         
