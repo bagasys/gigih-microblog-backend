@@ -63,10 +63,7 @@ class PostsController
   def show_all_posts()
     posts = Post::find_all
     
-    data = []
-    posts.each do |post|
-      data << post.to_hash
-    end
+    data = posts.map { |post| post.to_hash }
 
     return ({
       status: 200,
