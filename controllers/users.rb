@@ -6,15 +6,20 @@ class UsersController
   def create(params)
     user = User.new(username: params[:username], email: params[:email], bio: params[:bio])
 
-    if !user.valid?
+    if !user.valid? 
       return ({
         status: 400,
         message: "bad request"
       })
     end
-    
-    
-    
+
+    if user.exist? 
+      return ({
+        status: 400,
+        message: "user with the same email or username is exist already"
+      })
+    end
+
     if user.save
       return ({
       status: 201,
