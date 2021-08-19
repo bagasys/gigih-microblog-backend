@@ -30,6 +30,15 @@ class User
     true
   end
 
+  def exist?
+    client = create_db_client
+    rows = client.query(
+      "SELECT COUNT(*) as count FROM users WHERE username='#{@username}' OR email='#{@email}'"
+    )
+    client.close
+    return false if rows.first()["count"] > 0
+  end
+
   def save    
     return false unless self.valid?
     client = create_db_client
