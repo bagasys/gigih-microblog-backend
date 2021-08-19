@@ -12,6 +12,16 @@ class User
     @created_at = params[:created_at]
   end
 
+  def to_hash()
+    {
+      :id => @id,
+      :username => @username,
+      :email => @email,
+      :bio => @bio,
+      :created_at => @created_at
+    }
+  end
+
   def valid?
     return false if @username == nil || @username == ''
     return false if @email == nil || @email == ''
