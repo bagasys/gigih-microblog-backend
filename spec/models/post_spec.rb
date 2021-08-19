@@ -308,9 +308,5 @@ describe Post do
       
       Post::find_all_by_parent_id(1)
     end
-
-    
-
-    
   end
 end
