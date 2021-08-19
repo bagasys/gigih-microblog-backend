@@ -138,6 +138,20 @@ describe User do
       
       expect(user.exist?).to eq(false)
     end
+    it "should return true if the user is not exists already" do
+      user = User.new(
+        username: "bagasys",
+        email: "bagasys@gmail.com",
+      )
+      query =  "SELECT COUNT(*) as count FROM users WHERE username='bagasys' OR email='bagasys@gmail.com'"
+      query_result = double
+      first_row = {"count" => 0}
+      allow(query_result).to receive(:first).and_return(first_row)
+      allow(@client).to receive(:query).with(query).and_return(query_result)
+      allow(@client).to receive(:close)
+      
+      expect(user.exist?).to eq(true)
+    end
   end
 
   describe 'save' do
