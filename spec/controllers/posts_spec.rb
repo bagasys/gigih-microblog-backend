@@ -307,6 +307,16 @@ describe PostsController do
       end  
     end
     
+    context 'when nothin given as params' do
+      it 'should invoke the method to show all posts' do
+        params = {}
+        
+        controller = PostsController.new
+        expect(controller).to receive(:show_all_posts)
+        
+        controller.index(params)
+      end  
+    end
   end
 
 end
