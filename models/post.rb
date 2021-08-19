@@ -116,8 +116,18 @@ class Post
     rows = client.query("SELECT * FROM posts WHERE id IN (SELECT post_id FROM hashtags WHERE parent_id='#{parent_id}')")
     client.close
 
-    if rows == []
-      return []
+    posts = []
+    rows.each do |row|
+      post = Post.new({
+        id: row["id"],
+        parent_id: row["parent_id"],
+        user_id: row["user_id"],
+        text_content: row["text_content"],
+        attachment: row["attachment"],
+        created_at: row["created_at"]
+      })
+      posts << post
     end
+    posts
   end
 end
