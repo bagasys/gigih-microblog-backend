@@ -54,6 +54,8 @@ class PostsController
   def index(params)
     if params["hashtag"]
       self.show_posts_by_hashtag(params["hashtag"])
+    elsif params["parent_id"]
+        self.show_posts_by_parent_id(params["parent_id"])
     else
       self.show_all_posts()
     end
