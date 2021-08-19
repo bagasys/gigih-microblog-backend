@@ -8,7 +8,7 @@ class UsersController
       return ({
         status: 400,
         message: "bad request"
-      }).to_json
+      })
     end
     
     user = User.new(username: params[:username], email: params[:email], bio: params[:bio])
@@ -24,7 +24,7 @@ class UsersController
         bio: user.bio,
         created_at: user.created_at
       }
-    }).to_json
+    })
     end
   end
 
@@ -35,7 +35,7 @@ class UsersController
       return ({
         status: 404,
         message: "resource not found"
-      }).to_json
+      })
     end
 
     return ({
@@ -48,7 +48,7 @@ class UsersController
         bio: user.bio,
         created_at: user.created_at
       }
-    }).to_json
+    })
   end
 
   def show_by_username(username)
@@ -58,7 +58,7 @@ class UsersController
       return ({
         status: 404,
         message: "resource not found"
-      }).to_json
+      })
     end
 
     return ({
@@ -71,6 +71,6 @@ class UsersController
         bio: user.bio,
         created_at: user.created_at
       }
-    }).to_json
+    })
   end
 end
