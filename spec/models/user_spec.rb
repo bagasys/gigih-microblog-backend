@@ -236,4 +236,18 @@ describe User do
       expect(user.created_at).to eq(@user_data[:created_at])
     end
   end
+
+  describe 'to_hash' do
+    it "should return a hash of the instance states" do
+      params = {
+        :id => 1,
+        :username => 'bagasys',
+        :email => 'bagasys@gmail.com',
+        :bio => 'haiii',
+        :created_at => '2021-08-1 17:30:00'
+      }
+      post = User.new(params)
+      expect(post.to_hash).to eq(params)
+    end
+  end
 end
