@@ -84,6 +84,28 @@ describe PostsController do
         response = controller.create(params)
       end
 
+      it "it should not save the file when there is no attachment" do
+        attachment = double
+        allow(attachment).to receive("[]").with("filename").and_return("babi.jpg")
+        allow(attachment).to receive(:key?).with("filename").and_return(false)
+
+        file = double
+        expect(file).to_not receive(:write)
+        allow(file).to receive(:read)
+        allow(attachment).to receive("[]").with("tempfile").and_return(file)
+        
+        
+        allow(File).to receive(:open) { |&block| block.call(file) }
+        
+        params = {
+          'user_id' => @post_data['user_id'] ,
+          'text_content'=> @post_data['text_content'],
+          'attachment' => attachment
+        }
+        controller = PostsController.new
+        response = controller.create(params)
+      end
+
       
     end
 
