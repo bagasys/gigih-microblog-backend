@@ -136,7 +136,7 @@ describe User do
       allow(@client).to receive(:query).with(query).and_return(query_result)
       allow(@client).to receive(:close)
       
-      expect(user.exist?).to eq(false)
+      expect(user.exist?).to eq(true)
     end
     it "should return true if the user is not exists already" do
       user = User.new(
@@ -150,7 +150,7 @@ describe User do
       allow(@client).to receive(:query).with(query).and_return(query_result)
       allow(@client).to receive(:close)
       
-      expect(user.exist?).to eq(true)
+      expect(user.exist?).to eq(false)
     end
   end
 
