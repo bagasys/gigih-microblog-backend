@@ -113,6 +113,11 @@ class Post
 
   def self.find_all_by_parent_id(parent_id)
     client = create_db_client
+    rows = client.query("SELECT * FROM posts WHERE id IN (SELECT post_id FROM hashtags WHERE parent_id='#{parent_id}')")
     client.close
+
+    if rows == []
+      return []
+    end
   end
 end
