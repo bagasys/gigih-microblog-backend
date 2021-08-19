@@ -321,6 +321,19 @@ describe PostsController do
         controller.index(params)
       end  
     end
+
+    context 'when given parent_id as params' do
+      it 'should invoke the method to show posts based on their hashtag' do
+        params = {
+          "parent_id" => 1
+        }
+        
+        controller = PostsController.new
+        expect(controller).to receive(:show_posts_by_parent_id).with(params["parent_id"])
+        
+        controller.index(params)
+      end  
+    end
     
     context 'when nothin given as params' do
       it 'should invoke the method to show all posts' do
