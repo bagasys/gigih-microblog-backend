@@ -288,7 +288,13 @@ describe Post do
 
     it "should close the db connection." do
       expect(@client).to receive(:close)
-      posts = Post::find_all_by_parent_id("#gigih")
+      posts = Post::find_all_by_parent_id(1)
+    end
+
+    it "should return empty array when the query return 0 rows" do
+      allow(@client).to receive(:query).and_return([])
+      
+      expect(Post::find_all_by_parent_id(1)).to eq([])
     end
 
     
