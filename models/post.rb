@@ -30,20 +30,24 @@ class Post
     return true
   end
 
+  def generate_insert_post_query_text
+    if !@parent_id.nil? && !@attachment.nil?
+      return "INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES (#{@user_id}, '#{@text_content}', #{@parent_id}, '#{@attachment}')"
+    elsif !@parent_id.nil?
+      return "INSERT INTO posts (user_id, text_content, parent_id) VALUES (#{@user_id}, '#{@text_content}', #{@parent_id})"
+    elsif !@attachment.nil?
+      return "INSERT INTO posts (user_id, text_content, attachment) VALUES (#{@user_id}, '#{@text_content}', '#{@attachment}')"
+    else
+      return "INSERT INTO posts (user_id, text_content) VALUES (#{@user_id}, '#{@text_content}')"
+    end
+  end
+
   def save    
     return false unless self.valid?
     
     client = create_db_client
-    
-    if !@parent_id.nil? && !@attachment.nil?
-      client.query("INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES (#{@user_id}, '#{@text_content}', #{@parent_id}, '#{@attachment}')")
-    elsif !@parent_id.nil?
-      client.query("INSERT INTO posts (user_id, text_content, parent_id) VALUES (#{@user_id}, '#{@text_content}', '#{@parent_id}')")
-    elsif !@attachment.nil?
-      client.query("INSERT INTO posts (user_id, text_content, attachment) VALUES (#{@user_id}, '#{@text_content}', '#{@attachment}')")
-    else
-      client.query("INSERT INTO posts (user_id, text_content) VALUES (#{@user_id}, '#{@text_content}')")
-    end
+    query_text = generate_insert_post_query_text
+    client.query(query_text)
 
     id = client.last_id
     rows = client.query(

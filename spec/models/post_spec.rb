@@ -122,6 +122,49 @@ describe Post do
     end
   end
 
+  describe 'generate_insert_post_query_text' do
+    it 'right query when there are no attachment and parent_id' do
+      post = Post.new(
+        user_id: 1,
+        text_content: "Hehe",
+      )
+      query = "INSERT INTO posts (user_id, text_content) VALUES (1, 'Hehe')"
+      expect(post.generate_insert_post_query_text).to eq(query)
+    end
+
+    it 'should executes the right query when there are attachment and parent_id' do
+      post = Post.new(
+        user_id: 1,
+        text_content: "Hehe",
+        parent_id: 2,
+        attachment: "a.jpg"
+      )
+      query = "INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES (1, 'Hehe', 2, 'a.jpg')"
+      expect(post.generate_insert_post_query_text).to eq(query)
+    end
+
+    it 'should executes the right query when there is an attachment and no parent_id' do
+      post = Post.new(
+        user_id: 1,
+        text_content: "Hehe",
+        attachment: "a.jpg"
+      )
+      query = "INSERT INTO posts (user_id, text_content, attachment) VALUES (1, 'Hehe', 'a.jpg')"
+      expect(post.generate_insert_post_query_text).to eq(query)
+      
+    end
+
+    it 'should executes the right query when there is a parent_id but no attachment' do
+      post = Post.new(
+        user_id: 1,
+        text_content: "Hehe",
+        parent_id: 2
+      )
+      query = "INSERT INTO posts (user_id, text_content, parent_id) VALUES (1, 'Hehe', 2)"
+      expect(post.generate_insert_post_query_text).to eq(query)
+    end
+  end
+
   describe 'save' do
     context 'given invalid arguments' do
       it 'should return false when valid? return false' do
@@ -156,49 +199,6 @@ describe Post do
         allow(@client).to receive(:query).with(@query1)
         allow(@client).to receive(:last_id).and_return(@post_data[:id])
         allow(@client).to receive(:query).with(@query2).and_return(query2_response)
-      end
-
-      it 'should executes the right query when there are no attachment and parent_id' do
-        @post = Post.new(
-          user_id: @post_data[:user_id],
-          text_content: @post_data[:text_content],
-        )
-        expect(@client).to receive(:query).with(@query1)
-        @post.save()
-      end
-
-      it 'should executes the right query when there are attachment and parent_id' do
-        @post = Post.new(
-          user_id: @post_data[:user_id],
-          text_content: @post_data[:text_content],
-          parent_id: @post_data[:parent_id],
-          attachment: @post_data[:attachment]
-        )
-        query = "INSERT INTO posts (user_id, text_content, parent_id, attachment) VALUES (#{@post_data[:user_id]}, '#{@post_data[:text_content]}', #{@post_data[:parent_id]}, '#{@post_data[:attachment]}')"
-        expect(@client).to receive(:query).with(query)
-        @post.save()
-      end
-
-      it 'should executes the right query when there is an attachment and no parent_id' do
-        @post = Post.new(
-          user_id: @post_data[:user_id],
-          text_content: @post_data[:text_content],
-          attachment: @post_data[:attachment]
-        )
-        query = "INSERT INTO posts (user_id, text_content, attachment) VALUES (#{@post_data[:user_id]}, '#{@post_data[:text_content]}', '#{@post_data[:attachment]}')"
-        expect(@client).to receive(:query).with(query)
-        @post.save()
-      end
-
-      it 'should executes the right query when there is a parent_id but no attachment' do
-        @post = Post.new(
-          user_id: @post_data[:user_id],
-          text_content: @post_data[:text_content],
-          parent_id: @post_data[:parent_id]
-        )
-        query = "INSERT INTO posts (user_id, text_content, parent_id) VALUES (#{@post_data[:user_id]}, '#{@post_data[:text_content]}', '#{@post_data[:parent_id]}')"
-        expect(@client).to receive(:query).with(query)
-        @post.save()
       end
 
       it 'should close the db connection' do
