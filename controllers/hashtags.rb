@@ -5,7 +5,7 @@ require "sinatra"
 class HashtagsController
   def show_trending_hashtags()
     hashtags = Hashtag::find_trendings()
-    
+
     data = []
     hashtags.each do |hashtag|
       data << {name: hashtag.name, total_occurences: hashtag.total_occurences}
