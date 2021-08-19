@@ -297,6 +297,12 @@ describe Post do
       expect(Post::find_all_by_parent_id(1)).to eq([])
     end
 
+    it "should return an array which length equals to query result" do
+      allow(@client).to receive(:query).and_return(@posts_data)
+      
+      expect(Post::find_all_by_parent_id(1).length).to eq(@posts_data.length)
+    end
+
     
   end
 end
