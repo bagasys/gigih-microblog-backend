@@ -37,6 +37,7 @@ class User
     )
     client.close
     return false if rows.first()["count"] > 0
+    true
   end
 
   def save    
