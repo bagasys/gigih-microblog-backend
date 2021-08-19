@@ -99,6 +99,8 @@ class PostsController
       data: data
     }).to_json
   end
- 
 
+  def show_posts_by_parent_id(parent_id)
+    
+  end
 end

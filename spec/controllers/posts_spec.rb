@@ -28,6 +28,7 @@ describe PostsController do
     allow(Post).to receive(:find_all).and_return([post])
 
     allow(Post).to receive(:find_all_by_hashtag).and_return([post])
+    allow(Post).to receive(:find_all_by_parent_id).and_return([post])
 
     allow(Post).to receive(:new).and_return(post)
 
@@ -225,9 +226,32 @@ describe PostsController do
       
       expect(response).to eq(expected_response)
     end
-
-    
   end
+
+  describe 'show_posts_by_parent_id' do
+    it 'should response with the data in array form and status code 200' do
+      expected_response = {
+        status: 200,  
+        message: 'success',
+        data:[{
+          id: @post_data['id'] ,
+          parent_id: nil ,
+          user_id: @post_data['user_id'] ,
+          text_content: @post_data['text_content'] ,
+          attachment: @post_data['attachment'] ,
+          created_at: @post_data['created_at']
+        }]
+      }.to_json
+
+
+      controller = PostsController.new
+      response = controller.show_posts_by_parent_id(1)
+      
+      expect(response).to eq(expected_response)
+    end
+  end
+
+  
 
   
 end
