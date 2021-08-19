@@ -112,6 +112,7 @@ class Post
   end
 
   def self.find_all_by_parent_id(parent_id)
-    
+    client = create_db_client
+    client.close
   end
 end
