@@ -14,6 +14,17 @@ class Post
     @created_at = params[:created_at]
   end
 
+  def to_hash()
+    {
+      :id => @id,
+      :parent_id => @parent_id,
+      :user_id => @user_id,
+      :text_content => @text_content,
+      :attachment => @attachment,
+      :created_at => @created_at
+    }
+  end
+
   def valid?
     return false if @text_content == nil || @text_content == ''
     return true
