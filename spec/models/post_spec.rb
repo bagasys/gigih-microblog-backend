@@ -276,7 +276,21 @@ describe Post do
     it "should return an empty array if empty string is given as argument." do
       expect(Post::find_all_by_hashtag("")).to eq([])
     end
+  end
+
+  describe 'find_all_by_parent_id' do
+    before :each do
+      @query_result = @posts_data
+      allow(@client).to receive(:query).and_return(@query_result)
+      allow(@client).to receive(:close)
+    end
 
 
+    it "should close the db connection." do
+      expect(@client).to receive(:close)
+      posts = Post::find_all_by_parent_id("#gigih")
+    end
+
+    
   end
 end

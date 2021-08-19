@@ -111,9 +111,7 @@ class Post
     posts
   end
 
-
-
-
- 
-
+  def self.find_all_by_parent_id(parent_id)
+    
+  end
 end
