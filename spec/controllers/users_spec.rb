@@ -38,7 +38,7 @@ describe UsersController do
             bio: @user_data['bio'],
             created_at: @user_data['created_at'],
           }
-        }.to_json
+        }
           
         params = {
           'username' => @user_data['username'],
@@ -57,7 +57,7 @@ describe UsersController do
         expected_response = {
           status: 400,  
           message: 'bad request',
-        }.to_json
+        }
           
         params = {
           'email' => @user_data['email'],
@@ -73,7 +73,7 @@ describe UsersController do
         expected_response = {
           status: 400,  
           message: 'bad request',
-        }.to_json
+        }
           
         params = {
           'username' => @user_data['username'],
@@ -89,7 +89,7 @@ describe UsersController do
         expected_response = {
           status: 400,  
           message: 'bad request',
-        }.to_json
+        }
           
         params = {
           'username' => '',
@@ -106,7 +106,7 @@ describe UsersController do
         expected_response = {
           status: 400,  
           message: 'bad request',
-        }.to_json
+        }
           
         params = {
           'email' => '',
@@ -134,7 +134,7 @@ describe UsersController do
             bio: @user_data['bio'],
             created_at: @user_data['created_at'],
           }
-        }.to_json
+        }
           
         params = @user_data['id']
 
@@ -149,7 +149,7 @@ describe UsersController do
         expected_response = {
           status: 404,  
           message: 'resource not found',
-        }.to_json
+        }
           
         params = @user_data['id']
 
@@ -175,7 +175,7 @@ describe UsersController do
             bio: @user_data['bio'],
             created_at: @user_data['created_at'],
           }
-        }.to_json
+        }
           
         params = @user_data['username']
 
@@ -190,7 +190,7 @@ describe UsersController do
         expected_response = {
           status: 404,  
           message: 'resource not found',
-        }.to_json
+        }
           
         params = @user_data['username']
 
@@ -203,5 +203,3 @@ describe UsersController do
     end
   end
 end
-
-
