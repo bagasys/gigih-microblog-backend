@@ -75,10 +75,7 @@ class PostsController
   def show_posts_by_hashtag(hashtag)
     posts = Post::find_all_by_hashtag(hashtag)
     
-    data = []
-    posts.each do |post|
-      data << post.to_hash
-    end
+    data = posts.map { |post| post.to_hash }
 
     return ({
       status: 200,
