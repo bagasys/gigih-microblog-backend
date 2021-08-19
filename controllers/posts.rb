@@ -11,7 +11,18 @@ class PostsController
       }.to_json
     end
 
-    post = Post.new(user_id: params['user_id'], text_content: params['text_content'], parent_id: params['parent_id'], attachment: params['attachment'])
+    attachment = nil 
+    if params.key?("attachment") && params["attachment"].key?("filename")
+      file_name = params["attachment"]["filename"]
+      file = params["attachment"]["tempfile"]
+      file_path = "./public/files/#{file_name}" 
+      attachment = file_name
+      File.open(file_path, 'wb') do |f|
+        f.write(file.read)
+      end
+    end
+
+    post = Post.new(user_id: params['user_id'], text_content: params['text_content'], parent_id: params['parent_id'], attachment: attachment)
 
     if post.save
       Hashtag::save_hashtags_from_post(post.text_content, post.id)
@@ -39,7 +50,6 @@ class PostsController
         message: "resource not found"
       }).to_json
     end
-    
 
     return ({
       status: 200,
@@ -54,7 +64,6 @@ class PostsController
       }
     }).to_json
   end
-
 
   def show_all_posts()
     posts = Post::find_all
