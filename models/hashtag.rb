@@ -34,8 +34,7 @@ class Hashtag
   def self.find_trendings
     client = create_db_client
 
-    rows = client.query('SELECT name, COUNT(id) as total_occurences FROM hashtags WHERE created_at > (NOW() - INTERVAL 1 DAY)  GROUP BY name ORDER BY count(id
-    ) DESC')
+    rows = client.query('SELECT name, COUNT(id) as total_occurences FROM hashtags WHERE created_at > (NOW() - INTERVAL 1 DAY)  GROUP BY name ORDER BY count(id) DESC')
     
     hashtags = []
     rows.each do |row|
