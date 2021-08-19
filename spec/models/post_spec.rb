@@ -309,4 +309,19 @@ describe Post do
       Post::find_all_by_parent_id(1)
     end
   end
+
+  describe 'to_hash' do
+    it "should return a hash of instance states" do
+      params = {
+        :id => 1,
+        :parent_id => 2,
+        :user_id => 3,
+        :text_content => "Halooo",
+        :attachment => "files/a.jpg",
+        :created_at => "2021-08-1 17:30:00"
+      }
+      post = Post.new(params)
+      expect(post.to_hash).to eq(params)
+    end
+  end
 end
