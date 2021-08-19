@@ -62,7 +62,7 @@ class Post
   end
 
   def extract_hashtags_from_text_content
-    @text_content.scan(/#[a-zA-Z]+/)
+    @text_content.scan(/#[a-zA-Z]+/).uniq
   end
 
   def self.find_by_id(id)
