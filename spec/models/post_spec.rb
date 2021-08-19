@@ -303,6 +303,14 @@ describe Post do
       expect(Post::find_all_by_parent_id(1).length).to eq(@posts_data.length)
     end
 
+    it "should execute the right query" do
+      expect(@client).to receive(:query).with("SELECT * FROM posts WHERE parent_id = #{1}").and_return(@posts_data)
+      
+      Post::find_all_by_parent_id(1)
+    end
+
+    
+
     
   end
 end
