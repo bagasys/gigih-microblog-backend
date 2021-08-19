@@ -36,8 +36,9 @@ class User
       "SELECT COUNT(*) as count FROM users WHERE username='#{@username}' OR email='#{@email}'"
     )
     client.close
-    return false if rows.first()["count"] > 0
-    true
+    puts(rows.first()["count"])
+    return true if rows.first()["count"] > 0
+    false
   end
 
   def save    
