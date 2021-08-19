@@ -8,7 +8,7 @@ class PostsController
       return {
         status: 400,  
         message: 'bad request',
-      }.to_json
+      }
     end
 
     attachment = nil 
@@ -37,7 +37,7 @@ class PostsController
         attachment: post.attachment,
         created_at: post.created_at
       }
-    }).to_json
+    })
     end
   end
 
@@ -48,7 +48,7 @@ class PostsController
       return ({
         status: 404,
         message: "resource not found"
-      }).to_json
+      })
     end
 
     return ({
@@ -62,7 +62,7 @@ class PostsController
         attachment: post.attachment,
         created_at: post.created_at
       }
-    }).to_json
+    })
   end
 
   def show_all_posts()
@@ -84,7 +84,7 @@ class PostsController
       status: 200,
       message: "success",
       data: data
-    }).to_json
+    })
   end
 
   def show_posts_by_hashtag(hashtag)
@@ -106,7 +106,7 @@ class PostsController
       status: 200,
       message: "success",
       data: data
-    }).to_json
+    })
   end
 
   def show_posts_by_parent_id(parent_id)
@@ -128,6 +128,6 @@ class PostsController
       status: 200,
       message: "success",
       data: data
-    }).to_json
+    })
   end
 end
