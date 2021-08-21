@@ -5,6 +5,7 @@ gem "sinatra"
 gem "sinatra-contrib"
 gem "sinatra-namespace"
 gem 'sinatra-cross_origin'
+gem "thin"
 gem "mysql2"
 gem "rspec"
 gem "simplecov"
