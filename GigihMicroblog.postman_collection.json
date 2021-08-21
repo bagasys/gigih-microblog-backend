@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "c9af6724-20cb-4ead-9c00-a79c928ff7e2",
+		"name": "Gigih Microblog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "FP Requirements",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "babi",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "babi@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "Aku Babi.",
+									"description": "optional",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://35.247.183.56:4567/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"35",
+								"247",
+								"183",
+								"56"
+							],
+							"port": "4567",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "text_content",
+									"value": "Halo Pak! #Gigih #Bisa #Bisa #BISA #bisa #Gigih",
+									"type": "text"
+								},
+								{
+									"key": "attachment",
+									"description": "optional",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://35.247.183.56:4567/api/v1/posts",
+							"protocol": "http",
+							"host": [
+								"35",
+								"247",
+								"183",
+								"56"
+							],
+							"port": "4567",
+							"path": [
+								"api",
+								"v1",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "parent_id",
+									"value": "121",
+									"description": "use to make a reply",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "text_content",
+									"value": "Halo Pak! #Gigih #Bisa #Bisa #BISA #bisa #Gigih",
+									"type": "text"
+								},
+								{
+									"key": "attachment",
+									"description": "optional",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://35.247.183.56:4567/api/v1/posts",
+							"protocol": "http",
+							"host": [
+								"35",
+								"247",
+								"183",
+								"56"
+							],
+							"port": "4567",
+							"path": [
+								"api",
+								"v1",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trending Hashtags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://35.247.183.56:4567/api/v1/hashtags/trendings",
+							"protocol": "http",
+							"host": [
+								"35",
+								"247",
+								"183",
+								"56"
+							],
+							"port": "4567",
+							"path": [
+								"api",
+								"v1",
+								"hashtags",
+								"trendings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Posts by Hashtag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://35.247.183.56:4567/api/v1/posts?hashtag=gigih",
+							"protocol": "http",
+							"host": [
+								"35",
+								"247",
+								"183",
+								"56"
+							],
+							"port": "4567",
+							"path": [
+								"api",
+								"v1",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "hashtag",
+									"value": "gigih"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Outside FP Requirements",
+			"item": [
+				{
+					"name": "Get Comments of a Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://35.247.183.56:4567/api/v1/posts?parent_id=121",
+							"protocol": "http",
+							"host": [
+								"35",
+								"247",
+								"183",
+								"56"
+							],
+							"port": "4567",
+							"path": [
+								"api",
+								"v1",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "parent_id",
+									"value": "121"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://35.247.183.56:4567/api/v1/posts/2",
+							"protocol": "http",
+							"host": [
+								"35",
+								"247",
+								"183",
+								"56"
+							],
+							"port": "4567",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://35.247.183.56:4567/api/v1/users/2",
+							"protocol": "http",
+							"host": [
+								"35",
+								"247",
+								"183",
+								"56"
+							],
+							"port": "4567",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
