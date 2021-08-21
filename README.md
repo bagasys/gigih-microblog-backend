@@ -10,7 +10,11 @@ Below are the functional requirements that are given to be developed.
 
 - [x] User can save their profile information (username, email, bio).
 - [x] User can make a new post, with 1000 characters maximum, that may contain hashtags.
-- [x] User can make a comment (a post replying to another post) and it may also contain hashtags.
+  - [x] it has a maximum of 1000 characters.
+  - [x] it may contains hashtags.
+- [x] User can make a comment (a post replying to another post).
+  - [x] it has a maximum of 1000 characters.
+  - [x] it may contains hashtags.
 - [x] User can attach media (jpg, png, mp4) in a post or comment.
 - [x] User can see 5 trending hashtags.
 - [x] User can see posts and comments based on a hastag.
