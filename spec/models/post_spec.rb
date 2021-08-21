@@ -95,6 +95,18 @@ describe Post do
         )
         expect(post.valid?).to be false
       end
+
+      it 'should return false when user is nil' do
+        post_data = @posts_data[0]
+        post = Post.new(
+          id: post_data[:id], 
+          user_id: nil,
+          text_content: 'bagas',
+          attachment: post_data[:attachment],
+          created_at: post_data[:created_at],
+        )
+        expect(post.valid?).to be false
+      end
     end
   end
 
