@@ -27,7 +27,7 @@ class Post
 
   def valid?
     return false if @text_content == nil || @text_content == '' || @text_content.length > 1000
-    return false if @user_id == nil
+    return false if @user_id == nil || @user_id == ''
     return true
   end
 
