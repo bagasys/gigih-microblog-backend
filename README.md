@@ -29,17 +29,22 @@ There are fours tables used in this application.
 2. posts. It contains posts written by a user. `parent_id` is used to indicate that a post is a reply to another post (a comment).
 3. hashtags. It contains hashtag and which post it is belonged.
 
-## How to Run Unit Testing
+## Prerequisites
 
-1. run `rspec -f d` should run all test
+1. Ruby v3.0.1
+2. MySQL
 
-## How to Run It on Your Own Machine
+## How to Run It on Your Local Machine
 
 1. Clone this repo to your local machine.
-2. Use `bundle install` to install dependencies or Use `bundle install --path vendor/bundle`
-3. Create `.env` file based on `.env.example`
-4. Execute `source .env`
-5. Type `ruby main.rb` to run the app.
+2. Use `bundle install` or `bundle install --path vendor/bundle` to install the dependencies.
+3. Create .env file based on .env.example file.
+4. run `source .env`
+5. run `ruby main.rb` or `bundle exec ruby main.rb` to run the app.
+
+## How to Run Unit Testing
+
+1. run `rspec`or `bundle exec rspec` to run the tests.
 
 ## Postman Collection
 [Click here !](https://www.postman.com/bagasys/workspace/gigih-microblog/overview) to access the postman collection.
