@@ -32,6 +32,8 @@ describe PostsController do
     allow(Post).to receive(:find_all_by_parent_id).and_return([@post])
 
     allow(Post).to receive(:new).and_return(@post)
+
+    allow(SecureRandom).to receive(:urlsafe_base64).and_return("qLkb93lM-US3pG4d11dtQQ")
   end
 
   describe 'create' do
@@ -74,7 +76,7 @@ describe PostsController do
         allow(file).to receive(:read)
         allow(attachment).to receive("[]").with("tempfile").and_return(file)
         
-        
+        expect(SecureRandom).to receive(:urlsafe_base64).and_return("qLkb93lM-US3pG4d11dtQQ")
         allow(File).to receive(:open) { |&block| block.call(file) }
         allow(@post).to receive(:to_hash).and_return({})
         allow(@post).to receive(:valid?).and_return(true)

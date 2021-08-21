@@ -1,6 +1,7 @@
 require './models/post'
 require './models/hashtag'
 require "sinatra"
+require "securerandom"
 
 class PostsController
   def create(params)
@@ -14,7 +15,7 @@ class PostsController
 
     attachment = nil 
     if params.key?("attachment") && params["attachment"].key?("filename")
-      file_name = params["attachment"]["filename"]
+      file_name = "#{SecureRandom.urlsafe_base64}_#{params["attachment"]["filename"]}"
       file = params["attachment"]["tempfile"]
       file_path = "./public/files/#{file_name}" 
       attachment = file_name
