@@ -52,7 +52,7 @@ describe PostsController do
         }
         
         allow(@post).to receive(:to_hash).and_return(post_hash)
-
+        allow(@post).to receive(:valid?).and_return(true)
         params = {
           'user_id' => @post_data['user_id'] ,
           'text_content'=> @post_data['text_content'] ,
@@ -77,6 +77,7 @@ describe PostsController do
         
         allow(File).to receive(:open) { |&block| block.call(file) }
         allow(@post).to receive(:to_hash).and_return({})
+        allow(@post).to receive(:valid?).and_return(true)
         params = {
           'user_id' => @post_data['user_id'] ,
           'text_content'=> @post_data['text_content'],
@@ -99,6 +100,7 @@ describe PostsController do
         
         allow(File).to receive(:open) { |&block| block.call(file) }
         allow(@post).to receive(:to_hash).and_return({})
+        allow(@post).to receive(:valid?).and_return(true)
         params = {
           'user_id' => @post_data['user_id'] ,
           'text_content'=> @post_data['text_content'],
@@ -112,7 +114,7 @@ describe PostsController do
     end
 
     context 'when given invalid arguments' do
-      it "should return status 400 when no user_id is given" do
+      it "should return status 400 when .valid? return false" do
         expected_response = {
           status: 400,  
           message: 'bad request',
@@ -122,61 +124,7 @@ describe PostsController do
           'text_content'=> @post_data['text_content'] ,
           'attachment'=> @post_data['attachment'] ,
         }
-        
-        controller = PostsController.new
-        response = controller.create(params)
-        
-        expect(response).to eq(expected_response)
-      end
-
-      it "should return status 400 when user_id is an empty string" do
-        expected_response = {
-          status: 400,  
-          message: 'bad request',
-        }
-          
-        params = {
-          'user_id' => '' ,
-          'text_content'=> @post_data['text_content'] ,
-          'attachment'=> @post_data['attachment'] ,
-        }
-        
-        controller = PostsController.new
-        response = controller.create(params)
-        
-        expect(response).to eq(expected_response)
-      end
-
-      it "should return status 400 when text_content is not given" do
-        expected_response = {
-          status: 400,  
-          message: 'bad request',
-        }
-          
-        params = {
-          'user_id' => @post_data['user_id'],
-          'attachment'=> @post_data['attachment'] ,
-        }
-        
-        controller = PostsController.new
-        response = controller.create(params)
-        
-        expect(response).to eq(expected_response)
-      end
-
-      it "should return status 400 when text_content is an empty string" do
-        expected_response = {
-          status: 400,  
-          message: 'bad request',
-        }
-          
-        params = {
-          'text_content'=> '' ,
-          'user_id' => @post_data['user_id'],
-          'attachment'=> @post_data['attachment'] ,
-        }
-
-        
+        allow(@post).to receive(:valid?).and_return(false)
         controller = PostsController.new
         response = controller.create(params)
         
