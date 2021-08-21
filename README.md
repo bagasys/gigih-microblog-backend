@@ -42,8 +42,7 @@ There are fours tables used in this application.
 5. Type `ruby main.rb` to run the app.
 
 ## Postman Collection
-
-[tbd]
+[Click here !](https://www.postman.com/bagasys/workspace/gigih-microblog/overview) to access the postman collection.
 
 ## Production URL
 
